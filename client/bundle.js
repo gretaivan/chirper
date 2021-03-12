@@ -1,0 +1,1 @@
+console.error("Error: Can't walk dependency graph: Cannot find module 'C:\\Users\\greta\\programming-projects\\futureproof\\chirper\\client\\static\\js\\index.js' from 'C:\\Users\\greta\\programming-projects\\futureproof\\chirper\\client\\static\\js\\_fake.js'\n    required by C:\\Users\\greta\\programming-projects\\futureproof\\chirper\\client\\static\\js\\_fake.js");
