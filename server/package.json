@@ -2,13 +2,13 @@
   "name": "chirper_server",
   "version": "1.0.0",
   "description": "",
-  "main": "app.js",
+  "main": "index.js",
   "directories": {
     "test": "tests"
   },
   "scripts": {
     "test": "jest --silent --watchAll",
-    "start": "nodemon app.js",
+    "start": "nodemon index.js",
     "coverage": "jest --silent --coverage"
   },
   "author": "",

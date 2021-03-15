@@ -38,6 +38,10 @@ function submitJournal(e) {
     .catch(console.warn);
 }
 
+function appendEntries(entries) {
+  entries.forEach((entry) => appendEntry(entry));
+}
+
 function appendEntry(data) {
   const allEntries = document.getElementById('entries');
 
@@ -57,8 +61,17 @@ function appendEntry(data) {
   allEntries.appendChild(entryDiv);
 }
 
+function requestEntries() {
+  fetch('http://localhost:3000/journal')
+    .then((r) => r.json())
+    .then(appendEntries)
+    .catch(console.warn);
+}
+
 module.exports = {
   handleJournalSubmit,
   submitJournal,
   appendEntry,
+  appendEntries,
+  requestEntries,
 };
