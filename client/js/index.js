@@ -6,4 +6,4 @@ const formJournal = document.querySelector('#journal');
 // Setup event listeners
 formJournal.addEventListener('submit', handleJournalSubmit);
 
-document.onload = requestEntries;
+document.onload = requestEntries();
