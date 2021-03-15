@@ -1,0 +1,23 @@
+main {
+  border-left: 5px solid #7cc576;
+  border-right: 5px solid #7cc576;
+}
+
+header {
+  background-color: #7cc576;
+}
+
+.form-control {
+  background-color: #bee2bb;
+}
+
+input[type='submit'] {
+  background-color: #bee2bb;
+  border-radius: 25px;
+  border: 0;
+  padding: 5px 50px 5px 50px;
+}
+
+input[type='submit']:hover {
+  background-color: #7cc576;
+}

@@ -9,7 +9,7 @@
   "scripts": {
     "test": "jest --watchAll",
     "coverage": "jest --coverage",
-    "dev": "concurrently \"watchify ./static/js/index.js -o bundle.js\" \"python -m http.server\""
+    "dev": "concurrently \"watchify ./js/index.js -o bundle.js\" \"python -m http.server\""
   },
   "author": "",
   "license": "ISC",
