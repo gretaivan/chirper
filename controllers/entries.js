@@ -9,4 +9,9 @@ router.post('/', (req, res) => {
   res.status(201).send(newEntry);
 });
 
+router.get('/', (req, res) => {
+  const allEntries = Entry.all;
+  res.send(allEntries);
+});
+
 module.exports = router;
