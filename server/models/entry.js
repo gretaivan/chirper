@@ -1,12 +1,16 @@
 // JSON.parse() - Converts a JSON string into a JavaScript object.
 // JSON.stringify() - Converts a JavaScript object into a JSON string.
 
-const DB = require('./db.json');
+const DB = require('../../db.json');
 const fs = require('fs');
 
 
 class Entry { 
 
+
+    // message: 'Yo whats up lets save the planet',
+  
+    //date: '25/04/2373',
     // static count = 0; 
 
     constructor(entry, date, reaction = 0, comments = 0){
@@ -14,9 +18,9 @@ class Entry {
         this.date = date; 
         this.reaction = reaction; 
         this.comments = comments;
-        //
+        
         // this.count = count + 1; //this.count++ 
-    }
+}
 
     //create method??? 
     static create(data){
@@ -25,11 +29,17 @@ class Entry {
 
         let count = DB.length -1;
         const newEntry = new Entry({}) 
-        
     }
 
-    
-  
+    //static get all
+
+    //add reaction 
+
+    //add comment
+
+    //add giphy
+
+   
 }
 
 
@@ -47,6 +57,22 @@ class Test {
     
   
 }
+//READ json
+function read(){
+    let entries = fs.readFileSync('../db.json', 'utf-8');
+    entries = JSON.parse(entries);
+    return entries;
+}
+console.log("I AM READING: " + read())
+// let newEntry = ;
+// console.log(newEntry.length);
+// let ID = newEntry.length + 1;
+// let newData = { id: ID, ...obj };
+// newEntry.push(newData);
+// entries = JSON.stringify(newEntry);
+// ​
+// fs.writeFileSync('test.json', entries, 'utf-8');
+
 
  //WRITE instance to the file
 function write(obj ){
@@ -54,10 +80,11 @@ function write(obj ){
         console.log("json file updated")
     }
     let stringified = JSON.stringify(obj);
-    fs.writeFile('db.json', stringified, 'utf8', message);
+    fs.writeFile('../db.json', stringified, 'utf8', message);
+    
 }
 
-let ex = new Test("helloTest", "surnameTEst");
+let ex = new Test("testofTEsts", "surnameTEst");
 
 
 // DB.append(ex)
@@ -86,7 +113,7 @@ ex = JSON.parse(ex);
 
 
 
-let count = 4
+let count = read().length
 let str = `test${count}`
 // mainData[str] = ex
 
