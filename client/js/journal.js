@@ -32,7 +32,7 @@ function submitJournal(e) {
     },
   };
 
-  fetch('http://localhost:3000/journal', options)
+  fetch('http://localhost:3000/entry', options)
     .then((r) => r.json())
     .then(appendEntry)
     .catch(console.warn);
@@ -62,7 +62,7 @@ function appendEntry(data) {
 }
 
 function requestEntries() {
-  fetch('http://localhost:3000/journal')
+  fetch('http://localhost:3000/entry')
     .then((r) => r.json())
     .then(appendEntries)
     .catch(console.warn);
