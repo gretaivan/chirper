@@ -3,7 +3,7 @@ const fs = require('fs');
 
 //READ JSON file
 function read(){
-    let entries = fs.readFileSync('../db.json', 'utf-8');
+    let entries = fs.readFileSync('db.json', 'utf-8');
     entries = JSON.parse(entries);
     return entries;
 }
@@ -14,7 +14,7 @@ function write(obj ){
         console.log("json file has been updated")
     }
     let stringified = JSON.stringify(obj);
-    fs.writeFile('../db.json', stringified, 'utf8', message);
+    fs.writeFile('db.json', stringified, 'utf8', message);
 }
 
 let entriesData = read();
@@ -36,7 +36,7 @@ class Entry {
         //date with time as a string
         let count = entriesData.length;
         console.log(data)
-        const newEntry = new Entry(count, data.message, data.date); 
+        const newEntry = new Entry({id: count, ...data}); 
         entriesData.push(newEntry);
         console.log(entriesData)
         write(entriesData);
@@ -50,8 +50,10 @@ class Entry {
 
     static findById(id){
         try{
-            const entry = entriesData.filter((e) => e.id === id);
-            if(entry.id.includes(id)){
+            const entry = entriesData.filter((e) => e.id === id)[0];
+            console.log(entry)
+            console.log(`ID CHECK: ${entry.id}`)
+            if(entry.id === id){
                 return entry;
             }
         } catch(err){
@@ -75,4 +77,6 @@ class Entry {
 
 // let firstEntry = Entry.create({message: 'Yo whats up lets save the planet', date: '25/04/2373'})
 console.log("The found element is ")
-console.log(Entry.findById(2))
+console.log(Entry.findById(1))
+
+module.exports = Entry;
