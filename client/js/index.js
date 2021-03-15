@@ -1,3 +1,5 @@
+const { handleJournalSubmit } = require('./journal');
+
 // Setup querySelectors
 const formJournal = document.querySelector('#journal');
 

@@ -1,5 +1,13 @@
 function handleJournalSubmit(e) {
-  submitJournal(e);
+  console.log(e);
+  const button = e.submitter.name;
+  if (button === 'entry') {
+    submitJournal(e);
+  } else if (button === 'giphy') {
+    // run giphy request
+  } else {
+    // do nothing
+  }
 }
 
 function submitJournal(e) {
@@ -7,12 +15,14 @@ function submitJournal(e) {
   const currentDate = new Date();
   const dateTime = `${currentDate.getDate()}/${
     currentDate.getMonth() + 1
-  }/${currentdate.getFullYear()} @ ${currentdate.getHours()}:${currentdate.getMinutes()}`;
+  }/${currentDate.getFullYear()} @ ${currentDate.getHours()}:${currentDate.getMinutes()}`;
 
   const journalData = {
     entry: e.target.message.value,
     date: dateTime,
   };
+
+  console.log(journalData);
 
   const options = {
     method: 'POST',
@@ -46,3 +56,9 @@ function appendEntry(data) {
 
   allEntries.appendChild(entryDiv);
 }
+
+module.exports = {
+  handleJournalSubmit,
+  submitJournal,
+  appendEntry,
+};
