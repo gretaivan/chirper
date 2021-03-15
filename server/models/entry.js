@@ -50,7 +50,25 @@ class Entry {
         return allEntries;
     }
 
+    static findById(id){
+        try{
+            const entry = entriesData.filter((e) => e.id === id);
+            if(entry.id.includes(id)){
+                return entry;
+            }
+            // } else{ 
+            //     return `Entry by ${id} does not exist!`
+            // }
+        } catch(err){
+            let errorStr = `Entry by ${id} does not exist!`;
+            throw new Error(errorStr);
+        }
+    }
+
     //add reaction 
+    addReaction(){
+
+    }
 
     //add comment
 
@@ -61,7 +79,8 @@ class Entry {
 
 
 // let firstEntry = Entry.create({message: 'Yo whats up lets save the planet', date: '25/04/2373'})
-console.log(Entry.all)
+console.log("The found element is ")
+console.log(Entry.findById(2))
 
 
 // let newEntry = ;
