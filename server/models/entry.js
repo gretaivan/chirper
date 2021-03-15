@@ -32,7 +32,6 @@ class Entry {
         this.comments = 0;
     }
 
-    //create method??? 
     static create(data){
         //date with time as a string
         let count = entriesData.length;
@@ -44,7 +43,6 @@ class Entry {
         return newEntry;
     }
 
-    //static get all
     static get all(){
         const allEntries = entriesData.map((entry) => new Entry(entry));
         return allEntries;
@@ -56,9 +54,6 @@ class Entry {
             if(entry.id.includes(id)){
                 return entry;
             }
-            // } else{ 
-            //     return `Entry by ${id} does not exist!`
-            // }
         } catch(err){
             let errorStr = `Entry by ${id} does not exist!`;
             throw new Error(errorStr);
@@ -81,53 +76,3 @@ class Entry {
 // let firstEntry = Entry.create({message: 'Yo whats up lets save the planet', date: '25/04/2373'})
 console.log("The found element is ")
 console.log(Entry.findById(2))
-
-
-// let newEntry = ;
-// console.log(newEntry.length);
-// let ID = newEntry.length + 1;
-// let newData = { id: ID, ...obj };
-// newEntry.push(newData);
-// entries = JSON.stringify(newEntry);
-// ​
-// fs.writeFileSync('test.json', entries, 'utf-8');
-
-
- 
-
-// let ex = new Test("testofTEsts", "surnameTEst");
-
-// console.log("db file data: ")
-// console.log(DB)
-
-// let json = DB.data;
-// console.log(json)
-
-
-
-
-//CONVERT OBJECT TO ARRAY OF OBJECTS
-// let mainData = DB ; 
-
-
-// ex = JSON.stringify(ex);
-// ex = JSON.parse(ex);
-
-
-
-// let count = read().length
-// let str = `test${count}`
-// mainData[str] = ex
-
-// let newObj = {}
-
-// newObj[str] = ex;
-
-
-// mainData.push(newObj)
-// console.log(mainData)
-
-
-// write(mainData);
-
-// console.log(DB.length)
