@@ -80,6 +80,19 @@ function requestEntries() {
     .catch(console.warn);
 }
 
+let messageBox = document.getElementById("messageBox");
+let wordCount = document.getElementById("wordCount");
+
+messageBox.addEventListener("keyup",function(){
+  console.log('key pressed')
+  let characters = messageBox.value.split('');
+  wordCount.innerText = characters.length;
+  if(characters.length > 150){
+    messageBox.value = messageBox.value.substring(0,150);
+    wordCount.innerText = 150; 
+  }
+})
+
 module.exports = {
   handleJournalSubmit,
   submitJournal,

@@ -27,11 +27,14 @@
     <main class="container">
       <div class="entry p-3">
         <form id="journal">
-          <textarea
+          <textarea id="messageBox"
             name="message"
             placeholder="What's on your mind?"
             class="form-control mb-2"
           ></textarea>
+          <p>
+            <span id="wordCount">0</span> Characters
+          </p>
           <input type="submit" name="giphy" id="giphy" value="Submit Giphy" />
           <input type="submit" name="entry" id="entry" value="Submit Journal" />
         </form>
