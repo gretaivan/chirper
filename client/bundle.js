@@ -21,6 +21,10 @@ giphyButton.addEventListener('click', addGiphy);
 
 
 },{"./journal":2}],2:[function(require,module,exports){
+// variables for testing
+const hekoruURL = "https://chirper-uk.herokuapp.com"
+const testingURL = "http://localhost:3000"
+
 function handleJournalSubmit(e) {
   console.log(e);
   const button = e.submitter.name;
@@ -55,7 +59,7 @@ function submitJournal(e) {
     },
   };
 
-  fetch('http://localhost:3000/entry', options)
+  fetch(`${hekoruURL}/entry`, options)
     .then((r) => r.json())
     .then(appendEntry)
     .catch(console.warn);
@@ -95,7 +99,7 @@ function submitReaction(id, reaction) {
     },
   };
 
-  fetch('http://localhost:3000/entry/reaction', options)
+  fetch(`${hekoruURL}/entry/reaction`, options)
     .then((r) => r.json())
     .then(updateReaction)
     .catch(console.warn);
@@ -178,7 +182,7 @@ function appendEntry(data) {
 }
 
 function requestEntries() {
-  fetch('http://localhost:3000/entry')
+  fetch(`${hekoruURL}/entry`)
     .then((r) => r.json())
     .then(appendEntries)
     .catch(console.warn);
@@ -282,7 +286,7 @@ function submitGif(url) {
     },
   };
 
-  fetch('http://localhost:3000/entry', options)
+  fetch(`${hekoruURL}/entry`, options)
     .then((r) => r.json())
     .then(appendEntry)
     .catch(console.warn);
