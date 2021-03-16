@@ -22,7 +22,7 @@ giphyButton.addEventListener('click', addGiphy);
 
 },{"./journal":2}],2:[function(require,module,exports){
 // variables for testing
-const hekoruURL = "https://chirper-uk.herokuapp.com/"
+const hekoruURL = "https://chirper-uk.herokuapp.com"
 const testingURL = "http://localhost:3000"
 
 function handleJournalSubmit(e) {
