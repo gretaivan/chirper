@@ -2,7 +2,7 @@ const request = require("supertest");
 const server = require('../server');
 // const controller = require('../controllers/entries')
 // const DB = require('../db')
-//jest.mock('../controllers/entries');
+jest.mock('../controllers/entries');
 
 let port = 5000;
 
