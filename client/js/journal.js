@@ -68,18 +68,30 @@ function requestEntries() {
     .catch(console.warn);
 }
 
-let messageBox = document.getElementById("messageBox");
-let wordCount = document.getElementById("wordCount");
+function addGiphy() {
+  // get search term //
+  let userInput = document.getElementByClass("giphytwo").value
 
-messageBox.addEventListener("keyup",function(){
-  console.log('key pressed')
-  let characters = messageBox.value.split('');
-  wordCount.innerText = characters.length;
-  if(characters.length > 150){
-    messageBox.value = messageBox.value.substring(0,150);
-    wordCount.innerText = 150; 
-  }
-})
+  // our api key //
+  let giphyAPIkey = "9Cizm4XVM8GvD62i82DS39y9oGEE9ERK"
+
+  // overall giphy url using apikey and search term//
+  let giphyAPIurl = `https://api.giphy.com/v1/gifs/seach?q=${userInput}&rating=g&api_key=${giphyAPIkey}`
+
+  // fetch data from api and work with json // 
+  fetch(giphyAPIurl)
+  .then(function(data) {
+    return data.json
+  })
+  .then(function(json) {
+    // receives the first img path with fixed height //
+    let imgPath = json.data[0].images.fixed_height.url
+    // create //
+    let image = document.createElement("img")
+    image.setAttribute("src", imgPath)
+    document.body.appendChild(img)
+  })
+}
 
 module.exports = {
   handleJournalSubmit,
@@ -87,4 +99,5 @@ module.exports = {
   appendEntry,
   appendEntries,
   requestEntries,
+  addGiphy
 };

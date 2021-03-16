@@ -7,3 +7,10 @@ const formJournal = document.querySelector('#journal');
 formJournal.addEventListener('submit', handleJournalSubmit);
 
 document.onload = requestEntries();
+
+// GIPHY event listeners 
+
+let APIkey = "";
+document.addEventListener('DOMCenterLoaded', giphyAdd)
+
+
