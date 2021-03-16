@@ -1,4 +1,3 @@
-// const DB = require('../../db.json');
 const fs = require('fs');
 
 //READ from JSON file
