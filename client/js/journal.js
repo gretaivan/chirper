@@ -1,10 +1,14 @@
+// variables for testing
+const hekoruURL = "https://chirper-uk.herokuapp.com/"
+const testingURL = "http://localhost:3000"
+
 function handleJournalSubmit(e) {
   console.log(e);
   const button = e.submitter.name;
   if (button === 'entry') {
     submitJournal(e);
   } else if (button === 'giphy') {
-    // run giphy request
+    handleGifs(e);
   } else {
     // do nothing
   }
@@ -32,7 +36,7 @@ function submitJournal(e) {
     },
   };
 
-  fetch('https://chirper-uk.herokuapp.com/entry', options)
+  fetch(`${hekoruURL}/entry`, options)
     .then((r) => r.json())
     .then(appendEntry)
     .catch(console.warn);
@@ -72,7 +76,7 @@ function submitReaction(id, reaction) {
     },
   };
 
-  fetch('https://chirper-uk.herokuapp.com/entry/reaction', options)
+  fetch(`${hekoruURL}/entry/reaction`, options)
     .then((r) => r.json())
     .then(updateReaction)
     .catch(console.warn);
@@ -91,12 +95,13 @@ function updateReaction(data) {
 }
 
 function appendEntry(data) {
+
+
   const allEntries = document.getElementById('entries');
 
   const entryDiv = document.createElement('div');
   const date = document.createElement('p');
   const name = document.createElement('h5');
-  const entry = document.createElement('p');
 
   const reactionDiv = document.createElement('div');
   const like = document.createElement('a');
@@ -134,11 +139,19 @@ function appendEntry(data) {
   entryDiv.id = data.id;
   date.textContent = data.date;
   name.textContent = 'Anonymous';
-  entry.textContent = `"${data.entry}"`;
 
   entryDiv.appendChild(date);
   entryDiv.appendChild(name);
-  entryDiv.appendChild(entry);
+  const urlCheck = data.entry;
+  if (urlCheck.startsWith('https://')) {
+    const image = document.createElement('img');
+    image.src = data.entry;
+    entryDiv.appendChild(image);
+  } else {
+    const entry = document.createElement('p');
+    entry.textContent = `"${data.entry}"`;
+    entryDiv.appendChild(entry);
+  }
   entryDiv.appendChild(reactionDiv);
 
   allEntries.appendChild(entryDiv);
@@ -146,7 +159,7 @@ function appendEntry(data) {
 }
 
 function requestEntries() {
-  fetch('https://chirper-uk.herokuapp.com/entry')
+  fetch(`${hekoruURL}/entry`)
     .then((r) => r.json())
     .then(appendEntries)
     .catch(console.warn);
@@ -165,28 +178,95 @@ messageBox.addEventListener("keyup",function(){
 })
 
 function addGiphy() {
+  console.log('test')
   // get search term //
-  let userInput = document.getElementByClass("giphytwo").value
+  let userInput = document.getElementById("giphytwo").value
 
   // our api key //
   let giphyAPIkey = "9Cizm4XVM8GvD62i82DS39y9oGEE9ERK"
 
   // overall giphy url using apikey and search term//
-  let giphyAPIurl = `https://api.giphy.com/v1/gifs/seach?q=${userInput}&rating=g&api_key=${giphyAPIkey}`
+  let giphyAPIurl = `https://api.giphy.com/v1/gifs/search?q=${userInput}&rating=g&api_key=${giphyAPIkey}&limit=3`
 
   // fetch data from api and work with json // 
   fetch(giphyAPIurl)
-  .then(function(data) {
-    return data.json
-  })
-  .then(function(json) {
+  .then((r) => r.json())
+  .then(displayGifs)
+}
+
+function displayGifs(gifs) {
+    console.log(gifs)
     // receives the first img path with fixed height //
-    let imgPath = json.data[0].images.fixed_height.url
-    // create //
-    let image = document.createElement("img")
-    image.setAttribute("src", imgPath)
-    document.body.appendChild(img)
-  })
+    let imageData = gifs.data;
+    for (let i = 0; i < imageData.length; i++) {
+      let selectImage = imageData[i];
+      let imgURL = selectImage.images.fixed_height.url;
+
+      let button = document.getElementById(`giphy-${i + 1}`);
+      let radio = document.getElementById(`${i + 1}-gif`);
+      radio.value = imgURL;
+
+      button.innerHTML = `<img src="${imgURL}">`;
+    }
+
+
+    // let selectImage = imageData[0]
+    // let imgURL = selectImage.images.fixed_height.url
+    // // create //
+    // let image = document.createElement("img")
+    // image.setAttribute("src", imgURL)
+    // document.body.appendChild(image)
+}
+
+function handleGifs(e) {
+  e.preventDefault();
+  let radio;
+  let url;
+  const firstRadio = e.target[0].checked;
+  const secondRadio = e.target[1].checked;
+  const thirdRadio = e.target[2].checked;
+  if (firstRadio) {
+    radio = document.getElementById('1-gif');
+    url = radio.value;
+  } else if (secondRadio) {
+    radio = document.getElementById('2-gif');
+    url = radio.value;
+  } else if (thirdRadio) {
+    radio = document.getElementById('3-gif');
+    url = radio.value;
+  } else {
+    alert('oi');
+    return
+  }
+
+  submitGif(url);
+}
+
+function submitGif(url) {
+  const currentDate = new Date();
+  const dateTime = `${currentDate.getDate()}/${
+    currentDate.getMonth() + 1
+  }/${currentDate.getFullYear()} @ ${currentDate.getHours()}:${currentDate.getMinutes()}`;
+
+  const journalData = {
+    entry: url,
+    date: dateTime,
+  };
+
+  console.log(journalData);
+
+  const options = {
+    method: 'POST',
+    body: JSON.stringify(journalData),
+    headers: {
+      'Content-Type': 'application/json',
+    },
+  };
+
+  fetch(`${hekoruURL}/entry`, options)
+    .then((r) => r.json())
+    .then(appendEntry)
+    .catch(console.warn);
 }
 
 module.exports = {
