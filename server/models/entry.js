@@ -1,9 +1,8 @@
-// const DB = require('../../db.json');
 const fs = require('fs');
 
 //READ from JSON file
 function read(){
-    let entries = fs.readFileSync('../db.json', 'utf-8');
+    let entries = fs.readFileSync('db.json', 'utf-8');
     entries = JSON.parse(entries);
     return entries;
 }
@@ -14,7 +13,7 @@ function write(obj ){
         console.log("json file has been updated")
     }
     let stringified = JSON.stringify(obj);
-    fs.writeFile('../db.json', stringified, 'utf8', message);
+    fs.writeFile('db.json', stringified, 'utf8', message);
 }
 
 let entriesData = read();
