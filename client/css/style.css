@@ -24,9 +24,11 @@ input[type='submit']:hover {
 
 .reaction {
   color: #bee2bb;
+  text-decoration: none;
 }
 
 .reaction:hover,
 .reaction:active {
   color: #7cc576;
+  text-decoration: none;
 }

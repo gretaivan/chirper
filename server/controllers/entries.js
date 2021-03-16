@@ -14,4 +14,11 @@ router.get('/', (req, res) => {
   res.send(allEntries);
 });
 
+router.post('/reaction', (req, res) => {
+  const data = req.body;
+  Entry.addReaction(parseInt(data.id), data.reaction);
+  const returnedEntry = Entry.findById(parseInt(data.id))
+  res.status(201).send(returnedEntry);
+});
+
 module.exports = router;
