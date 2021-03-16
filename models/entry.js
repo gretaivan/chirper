@@ -30,7 +30,7 @@ class Entry {
         } else {
             this.reaction = [{like: 0}, {dislike: 0}, {tree: 0}]; 
         }
-        this.comments = [];
+        this.comments = data.comments;
     }
 
     static create(data){
@@ -93,22 +93,15 @@ class Entry {
         }
     }
     //add comment
-
-      // when comment is created the entry id (from client DOM) has to passed as part of data
-    // 
-    static createComment(id, comment){
-        console.log(comment)
-
+    static addComment(id, comment){
         let entry = this.findById(id); 
         entry.comments.push(comment);
-
-        console.log("Comment added: ");
-        console.log(entry)
-        
+        entriesData[id] = entry; 
+        write(entriesData);
     }
 
-
     //add giphy
+
 
    
 }
