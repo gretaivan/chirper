@@ -36,16 +36,35 @@
           <p>
             <span id="wordCount">0</span> Characters
           </p>
-          <input type="submit" name="giphy" id="giphy" value="Submit Giphy" />
           <input type="submit" name="entry" id="entry" value="Submit Journal" />
         </form>
       </br>
         <div>
-          <input type="text" id="giphytwo">
+          <textarea id="giphytwo"
+            name="message"
+            placeholder="Search for a GIF instead?"
+            class="form-control mb-2"
+          ></textarea>
           <button class="main-button">Giphy!
           </button>
         </div>
-
+        <form id="giphy-form">
+          <div id="giphy-holder" class="row p-1">
+            <div class="col">
+              <input type="radio" id="first-gif" name="first-gif">
+              <a id="giphy-1" class="giphy-image"></a>
+            </div>
+            <div class="col">
+              <input type="radio" id="second-gif" name="first-gif">
+              <a id="giphy-2" class="giphy-image"></a>
+            </div>
+            <div class="col">
+              <input type="radio" id="third-gif" name="first-gif">
+              <a id="giphy-3" class="giphy-image"></a>
+            </div>
+          </div>
+          <input type="submit" name="giphy" id="giphy" value="Submit Giphy" />
+        </form>
       </div>
       <div id="entries"></div>
     </main>

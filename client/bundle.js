@@ -1,13 +1,22 @@
 (function(){function r(e,n,t){function o(i,f){if(!n[i]){if(!e[i]){var c="function"==typeof require&&require;if(!f&&c)return c(i,!0);if(u)return u(i,!0);var a=new Error("Cannot find module '"+i+"'");throw a.code="MODULE_NOT_FOUND",a}var p=n[i]={exports:{}};e[i][0].call(p.exports,function(r){var n=e[i][1][r];return o(n||r)},p,p.exports,r,e,n,t)}return n[i].exports}for(var u="function"==typeof require&&require,i=0;i<t.length;i++)o(t[i]);return o}return r})()({1:[function(require,module,exports){
-const { handleJournalSubmit, requestEntries } = require('./journal');
+const { handleJournalSubmit, requestEntries, addGiphy } = require('./journal');
 
 // Setup querySelectors
 const formJournal = document.querySelector('#journal');
+const giphyButton = document.querySelector('button');
+console.log(giphyButton)
 
 // Setup event listeners
 formJournal.addEventListener('submit', handleJournalSubmit);
 
 document.onload = requestEntries();
+
+// GIPHY event listeners 
+
+let APIkey = "";
+giphyButton.addEventListener('click', addGiphy);
+
+
 
 },{"./journal":2}],2:[function(require,module,exports){
 function handleJournalSubmit(e) {
@@ -44,7 +53,7 @@ function submitJournal(e) {
     },
   };
 
-  fetch('http://localhost:3000/entry', options)
+  fetch('https://chirper-uk.herokuapp.com/entry', options)
     .then((r) => r.json())
     .then(appendEntry)
     .catch(console.warn);
@@ -84,7 +93,7 @@ function submitReaction(id, reaction) {
     },
   };
 
-  fetch('http://localhost:3000/entry/reaction', options)
+  fetch('https://chirper-uk.herokuapp.com/entry/reaction', options)
     .then((r) => r.json())
     .then(updateReaction)
     .catch(console.warn);
@@ -158,7 +167,7 @@ function appendEntry(data) {
 }
 
 function requestEntries() {
-  fetch('http://localhost:3000/entry')
+  fetch('https://chirper-uk.herokuapp.com/entry')
     .then((r) => r.json())
     .then(appendEntries)
     .catch(console.warn);
@@ -166,7 +175,6 @@ function requestEntries() {
 
 let messageBox = document.getElementById("messageBox");
 let wordCount = document.getElementById("wordCount");
-
 messageBox.addEventListener("keyup",function(){
   console.log('key pressed')
   let characters = messageBox.value.split('');
@@ -177,12 +185,52 @@ messageBox.addEventListener("keyup",function(){
   }
 })
 
+function addGiphy() {
+  console.log('test')
+  // get search term //
+  let userInput = document.getElementById("giphytwo").value
+
+  // our api key //
+  let giphyAPIkey = "9Cizm4XVM8GvD62i82DS39y9oGEE9ERK"
+
+  // overall giphy url using apikey and search term//
+  let giphyAPIurl = `https://api.giphy.com/v1/gifs/search?q=${userInput}&rating=g&api_key=${giphyAPIkey}&limit=3`
+
+  // fetch data from api and work with json // 
+  fetch(giphyAPIurl)
+  .then((r) => r.json())
+  .then(displayGifs)
+}
+
+function displayGifs(gifs) {
+    console.log(gifs)
+    // receives the first img path with fixed height //
+    let imageData = gifs.data;
+    for (let i = 0; i < imageData.length; i++) {
+      let selectImage = imageData[i];
+      let imgURL = selectImage.images.fixed_height.url
+
+      let button = document.getElementById(`giphy-${i + 1}`)
+
+      button.innerHTML = `<img src="${imgURL}">`
+    }
+
+
+    // let selectImage = imageData[0]
+    // let imgURL = selectImage.images.fixed_height.url
+    // // create //
+    // let image = document.createElement("img")
+    // image.setAttribute("src", imgURL)
+    // document.body.appendChild(image)
+}
+
 module.exports = {
   handleJournalSubmit,
   submitJournal,
   appendEntry,
   appendEntries,
   requestEntries,
+  addGiphy
 };
 
 },{}]},{},[1]);

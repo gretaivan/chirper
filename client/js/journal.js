@@ -165,28 +165,42 @@ messageBox.addEventListener("keyup",function(){
 })
 
 function addGiphy() {
+  console.log('test')
   // get search term //
-  let userInput = document.getElementByClass("giphytwo").value
+  let userInput = document.getElementById("giphytwo").value
 
   // our api key //
   let giphyAPIkey = "9Cizm4XVM8GvD62i82DS39y9oGEE9ERK"
 
   // overall giphy url using apikey and search term//
-  let giphyAPIurl = `https://api.giphy.com/v1/gifs/seach?q=${userInput}&rating=g&api_key=${giphyAPIkey}`
+  let giphyAPIurl = `https://api.giphy.com/v1/gifs/search?q=${userInput}&rating=g&api_key=${giphyAPIkey}&limit=3`
 
   // fetch data from api and work with json // 
   fetch(giphyAPIurl)
-  .then(function(data) {
-    return data.json
-  })
-  .then(function(json) {
+  .then((r) => r.json())
+  .then(displayGifs)
+}
+
+function displayGifs(gifs) {
+    console.log(gifs)
     // receives the first img path with fixed height //
-    let imgPath = json.data[0].images.fixed_height.url
-    // create //
-    let image = document.createElement("img")
-    image.setAttribute("src", imgPath)
-    document.body.appendChild(img)
-  })
+    let imageData = gifs.data;
+    for (let i = 0; i < imageData.length; i++) {
+      let selectImage = imageData[i];
+      let imgURL = selectImage.images.fixed_height.url
+
+      let button = document.getElementById(`giphy-${i + 1}`)
+
+      button.innerHTML = `<img src="${imgURL}">`
+    }
+
+
+    // let selectImage = imageData[0]
+    // let imgURL = selectImage.images.fixed_height.url
+    // // create //
+    // let image = document.createElement("img")
+    // image.setAttribute("src", imgURL)
+    // document.body.appendChild(image)
 }
 
 module.exports = {
