@@ -52,7 +52,6 @@ function submitJournal(e) {
 
 function appendEntries(entries) {
   entries.forEach((entry) => appendEntry(entry));
-  findReactions();
 }
 
 function findReactions() {
@@ -142,6 +141,7 @@ function appendEntry(data) {
   entryDiv.appendChild(reactionDiv);
 
   allEntries.appendChild(entryDiv);
+  findReactions();
 }
 
 function requestEntries() {
