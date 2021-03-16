@@ -17,7 +17,8 @@ router.get('/', (req, res) => {
 router.post('/reaction', (req, res) => {
   const data = req.body;
   Entry.addReaction(parseInt(data.id), data.reaction);
-  res.send('done');
+  const returnedEntry = Entry.findById(parseInt(data.id))
+  res.status(201).send(returnedEntry);
 });
 
 module.exports = router;
