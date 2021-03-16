@@ -3,7 +3,7 @@ const fs = require('fs');
 
 //READ from JSON file
 function read(){
-    let entries = fs.readFileSync('../db.json', 'utf-8');
+    let entries = fs.readFileSync('db.json', 'utf-8');
     entries = JSON.parse(entries);
     return entries;
 }
@@ -14,7 +14,7 @@ function write(obj ){
         console.log("json file has been updated")
     }
     let stringified = JSON.stringify(obj);
-    fs.writeFile('../db.json', stringified, 'utf8', message);
+    fs.writeFile('db.json', stringified, 'utf8', message);
 }
 
 let entriesData = read();
@@ -30,7 +30,7 @@ class Entry {
         } else {
             this.reaction = [{like: 0}, {dislike: 0}, {tree: 0}]; 
         }
-        this.comments = 0;
+        this.comments = [];
     }
 
     static create(data){
@@ -59,7 +59,6 @@ class Entry {
 
     static addReaction(id, reaction){
         try {
-            console.log("entering switch.")
             let entry = Entry.findById(id);
             let count;
             switch(reaction) {
@@ -93,8 +92,21 @@ class Entry {
                 console.warn()
         }
     }
-
     //add comment
+
+      // when comment is created the entry id (from client DOM) has to passed as part of data
+    // 
+    static createComment(id, comment){
+        console.log(comment)
+
+        let entry = this.findById(id); 
+        entry.comments.push(comment);
+
+        console.log("Comment added: ");
+        console.log(entry)
+        
+    }
+
 
     //add giphy
 
