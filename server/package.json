@@ -8,7 +8,8 @@
   },
   "scripts": {
     "test": "jest --silent --watchAll",
-    "start": "nodemon index.js",
+    "start": "node index.js",
+    "dev": "nodemon index.js", 
     "coverage": "jest --silent --coverage"
   },
   "author": "",
