@@ -21,3 +21,14 @@ input[type='submit'] {
 input[type='submit']:hover {
   background-color: #7cc576;
 }
+
+.reaction {
+  color: #bee2bb;
+  text-decoration: none;
+}
+
+.reaction:hover,
+.reaction:active {
+  color: #7cc576;
+  text-decoration: none;
+}
