@@ -11,14 +11,16 @@ header {
   background-color: #bee2bb;
 }
 
-input[type='submit'] {
+input[type='submit'],
+.main-button {
   background-color: #bee2bb;
   border-radius: 25px;
   border: 0;
   padding: 5px 50px 5px 50px;
 }
 
-input[type='submit']:hover {
+input[type='submit']:hover,
+.main-button:hover {
   background-color: #7cc576;
 }
 
@@ -31,4 +33,9 @@ input[type='submit']:hover {
 .reaction:active {
   color: #7cc576;
   text-decoration: none;
+}
+
+.giphy-image img {
+  padding: 25px;
+  height: 200px;
 }
