@@ -32,7 +32,7 @@ function submitJournal(e) {
     },
   };
 
-  fetch('http://localhost:3000/entry', options)
+  fetch('https://chirper-uk.herokuapp.com/entry', options)
     .then((r) => r.json())
     .then(appendEntry)
     .catch(console.warn);
@@ -87,7 +87,7 @@ function appendEntry(data) {
 }
 
 function requestEntries() {
-  fetch('http://localhost:3000/entry')
+  fetch('https://chirper-uk.herokuapp.com/entry')
     .then((r) => r.json())
     .then(appendEntries)
     .catch(console.warn);
