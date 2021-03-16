@@ -110,4 +110,4 @@ class Entry {
    
 }
 
-module.exports = Entry;
+module.exports = {Entry, read, write};
