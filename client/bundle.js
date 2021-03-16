@@ -62,6 +62,30 @@ function appendEntry(data) {
   const name = document.createElement('h5');
   const entry = document.createElement('p');
 
+  const reactionDiv = document.createElement('div');
+  const like = document.createElement('a');
+  const dislike = document.createElement('a');
+  const tree = document.createElement('a');
+  const comment = document.createElement('a');
+
+  reactionDiv.className += 'd-flex justify-content-end';
+
+  like.className += 'px-3 reaction';
+  dislike.className += 'px-3 reaction';
+  tree.className += 'px-3 reaction';
+  comment.className += 'px-3 reaction';
+
+  like.innerHTML = `<i class="fas fa-thumbs-up fa-2x"></i>`;
+  dislike.innerHTML = `<i class="fas fa-thumbs-down fa-2x"></i>`;
+  tree.innerHTML = `<i class="fab fa-pagelines fa-2x"></i>`;
+  comment.innerHTML = `<i class="fas fa-comment fa-2x"></i>`
+
+  reactionDiv.appendChild(like);
+  reactionDiv.appendChild(dislike);
+  reactionDiv.appendChild(tree);
+  reactionDiv.appendChild(comment);
+
+  entryDiv.id = data.id;
   date.textContent = data.date;
   name.textContent = 'Anonymous';
   entry.textContent = `"${data.entry}"`;
@@ -69,6 +93,7 @@ function appendEntry(data) {
   entryDiv.appendChild(date);
   entryDiv.appendChild(name);
   entryDiv.appendChild(entry);
+  entryDiv.appendChild(reactionDiv);
 
   allEntries.appendChild(entryDiv);
 }
