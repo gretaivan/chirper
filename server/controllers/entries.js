@@ -11,7 +11,7 @@ router.post('/', (req, res) => {
 
 router.get('/', (req, res) => {
   const allEntries = Entry.all;
-  res.send(allEntries);
+  res.status(200).send(allEntries);
 });
 
 router.post('/reaction', (req, res) => {
