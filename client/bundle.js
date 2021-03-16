@@ -52,6 +52,42 @@ function submitJournal(e) {
 
 function appendEntries(entries) {
   entries.forEach((entry) => appendEntry(entry));
+  findReactions();
+}
+
+function findReactions() {
+  const getReactions = document.querySelector('body');
+  getReactions.addEventListener('click', registerReactions)
+}
+
+function registerReactions(e) {
+  let anchor = e.target.closest('a');
+  if(anchor !== null) {
+    submitReaction(anchor.name, anchor.id)
+  } else {
+    // do nothing
+  }
+}
+
+function submitReaction(id, reaction) {
+  console.log(id);
+  console.log(reaction);
+  const reactionData = {
+    id: id,
+    reaction: reaction,
+  };
+
+  const options = {
+    method: 'POST',
+    body: JSON.stringify(reactionData),
+    headers: {
+      'Content-Type': 'application/json',
+    },
+  };
+
+  fetch('http://localhost:3000/entry/reaction', options)
+    .then(console.log('yay'))
+    .catch(console.warn);
 }
 
 function appendEntry(data) {
@@ -67,6 +103,16 @@ function appendEntry(data) {
   const dislike = document.createElement('a');
   const tree = document.createElement('a');
   const comment = document.createElement('a');
+
+  like.id = `like`
+  dislike.id = `dislike`
+  tree.id = `tree`
+  comment.id = `comment`
+
+  like.name = `${data.id}`
+  dislike.name = `${data.id}`
+  tree.name = `${data.id}`
+  comment.name = `${data.id}`
 
   reactionDiv.className += 'd-flex justify-content-end';
 
