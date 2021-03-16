@@ -29,7 +29,12 @@ class Entry {
         } else {
             this.reaction = [{like: 0}, {dislike: 0}, {tree: 0}]; 
         }
-        this.comments = data.comments;
+        if(data.comments){
+            this.comments = data.comments;
+        } else{
+            this.coments = [];
+        }
+        
     }
 
     static create(data){
@@ -105,4 +110,4 @@ class Entry {
    
 }
 
-module.exports = Entry;
+module.exports = {Entry, read, write};
