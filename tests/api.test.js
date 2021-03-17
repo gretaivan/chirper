@@ -8,6 +8,7 @@ let port = 5000;
 
 describe('API server test', () => {
     let apiServer;
+    const allEntries = DB;
 
     beforeAll(() => {   
         apiServer = server.listen(port, () => console.log(`Test server is running on port ${port}`));
@@ -18,12 +19,8 @@ describe('API server test', () => {
         apiServer.close(done);
     });
 
-    // beforeEach(() => {
-    //     jest.setTimeout(10000);
-    // });
-
-    test('responds to request get /  with status code 200', done => {
-        
+  
+    it('responds to request get /  with status code 200', done => { 
         request(apiServer)
             .get('/')
             .expect(200)
@@ -32,11 +29,11 @@ describe('API server test', () => {
    
     
     //Something wrong with callback function here? 
-    test('responds to request post /entry with status 201 and returns a new entry', (done) => {
+    it('responds to request post /entry with status 201 and returns a new entry', (done) => {
         //test object
         let testEntry = {
-            entry:"Planet saving test",
-            date:"25/04/2373"
+            "entry":"Planet saving test",
+            "date":"25/04/2373"
         }
         //jest.setTimeout(30000);
         request(apiServer)
@@ -46,7 +43,7 @@ describe('API server test', () => {
             // .expect({id: 4, ...testEntry}, done) 
     });
 
-    test('responds to request get /entry  with status code 200', (done) => {
+    it('responds to request get /entry  with status code 200', (done) => {
         request(apiServer)
             .get('/entry')
             .expect(200, done)
