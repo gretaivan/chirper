@@ -36,7 +36,7 @@ function submitJournal(e) {
     },
   };
 
-  fetch(`${hekoruURL}/entry`, options)
+  fetch(`${testingURL}/entry`, options)
     .then((r) => r.json())
     .then(appendEntry)
     .catch(console.warn);

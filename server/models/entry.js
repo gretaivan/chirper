@@ -25,13 +25,6 @@ class Entry {
         this.entry = data.entry;
         this.date = data.date; 
         if (data.reaction) {
-<<<<<<< HEAD
-            this.reaction = [{like: data.reaction['like']}, {dislike: data.reaction['dislike']}, {tree: data.reaction['tree']}]; 
-        } else {
-            this.reaction = [{like: 0}, {dislike: 0}, {tree: 0}]; 
-        }; 
-        this.comments = 0;
-=======
             this.reaction = data.reaction;
         } else {
             this.reaction = [{like: 0}, {dislike: 0}, {tree: 0}]; 
@@ -42,7 +35,6 @@ class Entry {
             this.coments = [];
         }
         
->>>>>>> greta/staging
     }
 
     static create(data){
