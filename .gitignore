@@ -1,5 +1,7 @@
 client/node_modules
 server/node_modules
-server/coverage
 client/coverage
+server/coverage
 .vscode
+.DS_Store
+
