@@ -208,9 +208,20 @@ function commentBox(id) {
   const commentBox = document.createElement('textarea');
   const entryBox = document.getElementById(id)
   const submitBtn = document.createElement('input')
+  
+  commentDiv.name = id
   commentBox.name = id
+  submitBtn.name = id
 
+  commentDiv.id = 'commentDiv'
   commentBox.id = 'comment'
+  submitBtn.id = 'submitBtn'
+
+  submitBtn.type = 'submit'
+
+  submitBtn.value = 'Submit Comment'
+
+
   commentDiv.className += 'd-flex justify-content-start text-center';
   
 
