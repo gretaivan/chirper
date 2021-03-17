@@ -44,7 +44,7 @@ function submitJournal(e) {
   };
 
 //fetch test should be commented for deploy
-  fetch(`${testingURL}/entry`, options)
+  // fetch(`${testingURL}/entry`, options)
 ///until here
   
   
@@ -208,18 +208,7 @@ function requestEntries() {
     .catch(console.warn);
 }
 
-let messageBox = document.getElementById("messageBox");
-let wordCount = document.getElementById("wordCount");
-messageBox.addEventListener("keyup",function(){
-  console.log('key pressed')
-  let characters = messageBox.value.split('');
-  wordCount.innerText = characters.length;
-  if(characters.length > 150){
-    messageBox.value = messageBox.value.substring(0,150);
-    alert('You have gone over the character limit of 150 characters.');
-    wordCount.innerText = 150; 
-  }
-})
+
 //----------------------------------------------------------------------
 //add comment box function
 //#1
