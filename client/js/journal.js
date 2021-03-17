@@ -43,6 +43,11 @@ function submitJournal(e) {
     },
   };
 
+//fetch test should be commented for deploy
+  fetch(`${testingURL}/entry`, options)
+///until here
+  
+  
   fetch(`${herokuURL}/entry`, options)
     .then((r) => r.json())
     .then(appendEntry)

@@ -12,9 +12,5 @@ giphyForm.addEventListener('submit', handleJournalSubmit);
 
 document.onload = requestEntries();
 
-// GIPHY event listeners 
-
-let APIkey = "";
-giphyButton.addEventListener('click', addGiphy);
 
 
