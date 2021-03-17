@@ -20,7 +20,7 @@ describe('index.html', () => {
 
         // check there is a messagebox //
         test('it has a message box with a placeholder', () => {
-            const mainEntryBox = document.querySelector('journal message-box')
+            const mainEntryBox = document.querySelector('.container #journal #messageBox')
             expect(mainEntryBox).toBeTruthy() 
         })
 
@@ -34,7 +34,7 @@ describe('index.html', () => {
         })
 
         test('it has a call to action', () => {
-            expect(button.textContent.toLowerCase()).toContain('click')
+            expect(button.textContent.toLowerCase()).toContain('giphy!')
         })
 
         // journal entries //
@@ -47,18 +47,22 @@ describe('index.html', () => {
             })
             
             test('there is a date', () => {
-                const entryDate = document.querySelector('#entries')
-                expect(entryDate).toBeTruthy()
+                const entryDate = document.querySelector('#entries').innerText
+                expect(entryDate.getAttribute('type')).toBe('date')
             })
 
             test('there is an Anonymous name tag', () => {
-                const anonymousTag = document.querySelectorAll('#entries')
-                expect(anonymousTag[1]).toBeTruthy()
+                const anonymousTag = document.querySelectorAll('#entries h5')[0].innerHTML
+                expect(anonymousTag).toBe("Anonymous")
+            })
+
+            test('there is a GIPHY', () => {
+                const giphyContent = document.querySelectorAll('#entries img')
+                expect(giphyContent).toEqualTag('img')
             })
 
             // test('there is a GIPHY or a comment', () => {
-            //     const giphyContent = ''
-            //     const commentContent = ''
+            //     const giphyContent = document.document.querySelectorAll('#entries p #5')
             //     expect(giphyContent || commentContent).toBeTruthy()
             // })
 
