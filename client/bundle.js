@@ -22,7 +22,7 @@ giphyButton.addEventListener('click', addGiphy);
 
 },{"./journal":2}],2:[function(require,module,exports){
 // variables for testing
-const hekoruURL = "https://chirper-uk.herokuapp.com"
+const hekoruURL = "https://chirper-uk.herokuapp.com/"
 const testingURL = "http://localhost:3000"
 
 function handleJournalSubmit(e) {
@@ -31,8 +31,15 @@ function handleJournalSubmit(e) {
   if (button === 'entry') {
     submitJournal(e);
   } else if (button === 'giphy') {
+    // run giphy request
     handleGifs(e);
-  } else {
+  
+  } 
+  else if (button === 'giphy') {
+    
+  //TODO:create another 'else if' for submission button
+  }  
+  else {
     // do nothing
   }
 }
@@ -59,7 +66,7 @@ function submitJournal(e) {
     },
   };
 
-  fetch(`${hekoruURL}/entry`, options)
+  fetch(`${testingURL}/entry`, options)
     .then((r) => r.json())
     .then(appendEntry)
     .catch(console.warn);
@@ -77,8 +84,17 @@ function findReactions() {
 function registerReactions(e) {
   let anchor = e.target.closest('a');
   if(anchor !== null) {
+    if (anchor.id != "comment"){
     submitReaction(anchor.name, anchor.id)
+    }
+    else {
+      console.log('comment clicked')
+      commentBox(anchor.name)
+      
+      
+    }
   } else {
+    
     // do nothing
   }
 }
@@ -99,7 +115,7 @@ function submitReaction(id, reaction) {
     },
   };
 
-  fetch(`${hekoruURL}/entry/reaction`, options)
+  fetch(`${testingURL}/entry/reaction`, options)
     .then((r) => r.json())
     .then(updateReaction)
     .catch(console.warn);
@@ -119,7 +135,6 @@ function updateReaction(data) {
 
 function appendEntry(data) {
 
-
   const allEntries = document.getElementById('entries');
 
   const entryDiv = document.createElement('div');
@@ -131,11 +146,6 @@ function appendEntry(data) {
   const dislike = document.createElement('a');
   const tree = document.createElement('a');
   const comment = document.createElement('a');
-
-  //const commentDiv = document.createElement('div');
-  //const commentBox = document.createElement('textarea');
-
-
 
   like.id = `like`
   dislike.id = `dislike`
@@ -187,7 +197,7 @@ function appendEntry(data) {
 }
 
 function requestEntries() {
-  fetch(`${hekoruURL}/entry`)
+  fetch(`${testingURL}/entry`)
     .then((r) => r.json())
     .then(appendEntries)
     .catch(console.warn);
@@ -205,16 +215,36 @@ messageBox.addEventListener("keyup",function(){
   }
 })
 //----------------------------------------------------------------------
-//Comment function
+//add comment box function
 //#1
+//TODO:
+      //create function and invoke here which does the following:
+        //Create another form & event listener
+        //invoke function to create text area/div etc
+        //add eventlistener
+        //Make logic for removing comment box if another comment is clicked
+        //Make comment box hidden if possible
+        //
 
-function commentBox() {
-  if (findReactions() == true) {
-    console.log('commentBox')
-  }
+function commentBox(id) {
+  const commentDiv = document.createElement('div');
+  const commentBox = document.createElement('textarea');
+  const entryBox = document.getElementById(id)
+  const submitBtn = document.createElement('input')
+  commentBox.name = id
+
+  commentBox.id = 'comment'
+  commentDiv.className += 'd-flex justify-content-start text-center';
+  
+
+  entryBox.appendChild(commentDiv);
+  commentDiv.appendChild(commentBox);
+  commentDiv.appendChild(submitBtn);
 
 
-};
+}
+
+
 
 //#2
 /*
@@ -232,7 +262,16 @@ function submitComment(e) {
   };
 
   console.log(journalData);
+
+  const options = {
+    method: 'POST',
+    body: JSON.stringify(journalData),
+    headers: {
+      'Content-Type': 'application/json',
+    },
+  };
 */
+//----------------------------------------------------------------------
 function addGiphy() {
   console.log('test')
   // get search term //
@@ -319,7 +358,7 @@ function submitGif(url) {
     },
   };
 
-  fetch(`${hekoruURL}/entry`, options)
+  fetch(`${testingURL}/entry`, options)
     .then((r) => r.json())
     .then(appendEntry)
     .catch(console.warn);
