@@ -181,6 +181,25 @@ function appendEntry(data) {
   date.className += 'entry-date';
   name.textContent = 'Anonymous';
 
+  const commentHolder = document.createElement('div');
+  commentHolder.id = `comments-${data.id}`
+  commentHolder.className = 'comments';
+  if (data.comment !== null) {
+    const comments = data.comments;
+    comments.forEach((comment) => {
+      const commentBox = document.createElement('div');
+      commentBox.className = 'comment-box';
+      const commentUser = document.createElement('h5');
+      const theComment = document.createElement('p');
+
+      commentUser.textContent = 'Anonymous';
+      theComment.textContent = `"${comment}"`
+      commentBox.appendChild(commentUser);
+      commentBox.appendChild(theComment);
+      commentHolder.appendChild(commentBox);
+    });
+  }
+
   entryDiv.appendChild(date);
   entryDiv.appendChild(name);
   const urlCheck = data.entry;
@@ -195,7 +214,7 @@ function appendEntry(data) {
     entryDiv.appendChild(entry);
   }
   entryDiv.appendChild(reactionDiv);
-
+  entryDiv.appendChild(commentHolder)
   allEntries.appendChild(entryDiv);
   findReactions();
 }
@@ -295,7 +314,23 @@ function submitComment(e) {
 }
 
 function updateComment(data) {
+  const commentHolder = document.getElementById(`comments-${data.id}`);
+  commentHolder.innerHTML = '';
+  if (data.comment !== null) {
+    const comments = data.comments;
+    comments.forEach((comment) => {
+      const commentBox = document.createElement('div');
+      commentBox.className = 'comment-box';
+      const commentUser = document.createElement('h5');
+      const theComment = document.createElement('p');
 
+      commentUser.textContent = 'Anonymous';
+      theComment.textContent = `"${comment}"`
+      commentBox.appendChild(commentUser);
+      commentBox.appendChild(theComment);
+      commentHolder.appendChild(commentBox);
+    });
+  }
 }
 
 function addGiphy() {
