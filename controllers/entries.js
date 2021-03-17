@@ -2,7 +2,7 @@ const express = require('express');
 const router = express.Router();
 
 
-const { Entry } = require('../models/entry');
+const Entry = require('../models/entry');
 
 router.post('/', (req, res) => {
   const data = req.body;
@@ -18,6 +18,13 @@ router.get('/', (req, res) => {
 router.post('/reaction', (req, res) => {
   const data = req.body;
   Entry.addReaction(parseInt(data.id), data.reaction);
+  const returnedEntry = Entry.findById(parseInt(data.id))
+  res.status(201).send(returnedEntry);
+});
+
+router.patch('/comment', (req, res) => {
+  const data = req.body;
+  Entry.addComment(parseInt(data.id), data.comment);
   const returnedEntry = Entry.findById(parseInt(data.id))
   res.status(201).send(returnedEntry);
 });

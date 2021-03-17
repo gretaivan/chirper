@@ -101,7 +101,7 @@ class Entry {
         let entry = this.findById(id); 
         entry.comments.push(comment);
         entriesData[id] = entry; 
-        write(entriesData);
+        utils.write(entriesData);
     }
 
     //add giphy
