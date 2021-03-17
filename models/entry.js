@@ -32,7 +32,7 @@ class Entry {
         if(data.comments){
             this.comments = data.comments;
         } else{
-            this.coments = [];
+            this.comments = [];
         }
         
     }
