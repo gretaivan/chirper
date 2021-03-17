@@ -1,6 +1,7 @@
 const fs = require('fs');
 const path = require('path');
 const html = fs.readFileSync(path.resolve(__dirname, '../index.html'), 'utf8');
+const journal = require('../js/journal')
 
 describe('index.html', () => {
 
@@ -47,8 +48,13 @@ describe('index.html', () => {
             })
             
             test('there is a date', () => {
-                const entryDate = document.querySelector('#entries').innerText
-                expect(entryDate.getAttribute('type')).toBe('date')
+                
+                journal.appendEntry({id:0,entry:"Yo whats up lets save the planet",date:"25/04/2373",reaction:[{like:0},{dislike:0},{tree:0}],comments:["first comment"]});
+
+                let entryDate = document.querySelector('.entry-date');
+                expect(entryDate.textContent).toEqual("25/04/2373");
+
+                console.log(entryDate.textContent)
             })
 
             test('there is an Anonymous name tag', () => {
