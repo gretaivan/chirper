@@ -3,9 +3,6 @@ const Entry = require('../models/entry');
 jest.mock('../controllers/utils', () => jest.requireActual('../controllers/__mocks__/utils'))
 const utils = require('../controllers/utils')
 
-
-
-
 describe('Entry model tests', () => {
     // let testEntry = jest.fn(() => {
     let testEntry = {        
@@ -66,7 +63,7 @@ describe('Entry model tests', () => {
     //         console.log("mocked JSON file update")
     //     })
 
-    // })
+    // })imp
    
 
     // it('should call write function', () => {
