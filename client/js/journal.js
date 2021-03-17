@@ -5,6 +5,7 @@ function handleJournalSubmit(e) {
     submitJournal(e);
   } else if (button === 'giphy') {
     // run giphy request
+  //TODO:create another 'else if' for button submission
   } else {
     // do nothing
   }
@@ -50,8 +51,24 @@ function findReactions() {
 function registerReactions(e) {
   let anchor = e.target.closest('a');
   if(anchor !== null) {
+    if (anchor.id != "comment"){
     submitReaction(anchor.name, anchor.id)
+    }
+    else {
+      //TODO:
+      //create function and invoke here which does the following:
+        //Create another form & event listener
+        //invoke function to create text area/div etc
+        //const commentDiv = document.createElement('div');
+        //const commentBox = document.createElement('textarea');
+        //add eventlistener
+        //Make logic for removing comment box if another comment is clicked
+        //Make comment box hidden if possible
+        //
+      
+    }
   } else {
+    
     // do nothing
   }
 }
@@ -103,6 +120,10 @@ function appendEntry(data) {
   const dislike = document.createElement('a');
   const tree = document.createElement('a');
   const comment = document.createElement('a');
+
+  
+
+
 
   like.id = `like`
   dislike.id = `dislike`
@@ -164,11 +185,55 @@ messageBox.addEventListener("keyup",function(){
     wordCount.innerText = 150; 
   }
 })
+//----------------------------------------------------------------------
+//Comment function
+//#1
 
+function commentBox() {
+  if (findReactions() == true) {
+    console.log('commentBox')
+  }
+
+
+};
+
+//#2
+/*
+function submitComment(e) {
+  e.preventDefault();
+  
+  const currentDate = new Date();
+  const dateTime = `${currentDate.getDate()}/${
+    currentDate.getMonth() + 1
+  }/${currentDate.getFullYear()} @ ${currentDate.getHours()}:${currentDate.getMinutes()}`;
+  
+  const journalData = {
+    entry: e.target.message.value,
+    date: dateTime,
+  };
+
+  console.log(journalData);
+
+  const options = {
+    method: 'POST',
+    body: JSON.stringify(journalData),
+    headers: {
+      'Content-Type': 'application/json',
+    },
+  };
+
+  fetch('https://chirper-uk.herokuapp.com/entry', options)
+    .then((r) => r.json())
+    .then(appendEntry)
+    .catch(console.warn);
+}
+*/
+//----------------------------------------------------------------------
 module.exports = {
   handleJournalSubmit,
   submitJournal,
   appendEntry,
   appendEntries,
   requestEntries,
+  commentBox
 };

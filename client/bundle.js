@@ -44,7 +44,7 @@ function submitJournal(e) {
     },
   };
 
-  fetch('http://localhost:3000/entry', options)
+  fetch('https://chirper-uk.herokuapp.com/entry', options)
     .then((r) => r.json())
     .then(appendEntry)
     .catch(console.warn);
@@ -84,7 +84,7 @@ function submitReaction(id, reaction) {
     },
   };
 
-  fetch('http://localhost:3000/entry/reaction', options)
+  fetch('https://chirper-uk.herokuapp.com/entry/reaction', options)
     .then((r) => r.json())
     .then(updateReaction)
     .catch(console.warn);
@@ -115,6 +115,11 @@ function appendEntry(data) {
   const dislike = document.createElement('a');
   const tree = document.createElement('a');
   const comment = document.createElement('a');
+
+  //const commentDiv = document.createElement('div');
+  //const commentBox = document.createElement('textarea');
+
+
 
   like.id = `like`
   dislike.id = `dislike`
@@ -158,7 +163,7 @@ function appendEntry(data) {
 }
 
 function requestEntries() {
-  fetch('http://localhost:3000/entry')
+  fetch('https://chirper-uk.herokuapp.com/entry')
     .then((r) => r.json())
     .then(appendEntries)
     .catch(console.warn);
@@ -176,13 +181,57 @@ messageBox.addEventListener("keyup",function(){
     wordCount.innerText = 150; 
   }
 })
+//----------------------------------------------------------------------
+//Comment function
+//#1
 
+function commentBox() {
+  if (findReactions() == true) {
+    console.log('commentBox')
+  }
+
+
+};
+
+//#2
+/*
+function submitComment(e) {
+  e.preventDefault();
+  
+  const currentDate = new Date();
+  const dateTime = `${currentDate.getDate()}/${
+    currentDate.getMonth() + 1
+  }/${currentDate.getFullYear()} @ ${currentDate.getHours()}:${currentDate.getMinutes()}`;
+  
+  const journalData = {
+    entry: e.target.message.value,
+    date: dateTime,
+  };
+
+  console.log(journalData);
+
+  const options = {
+    method: 'POST',
+    body: JSON.stringify(journalData),
+    headers: {
+      'Content-Type': 'application/json',
+    },
+  };
+
+  fetch('https://chirper-uk.herokuapp.com/entry', options)
+    .then((r) => r.json())
+    .then(appendEntry)
+    .catch(console.warn);
+}
+*/
+//----------------------------------------------------------------------
 module.exports = {
   handleJournalSubmit,
   submitJournal,
   appendEntry,
   appendEntries,
   requestEntries,
+  commentBox
 };
 
 },{}]},{},[1]);
