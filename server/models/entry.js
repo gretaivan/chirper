@@ -1,4 +1,3 @@
-// const DB = require('../../db.json');
 const fs = require('fs');
 
 //READ from JSON file
@@ -26,11 +25,24 @@ class Entry {
         this.entry = data.entry;
         this.date = data.date; 
         if (data.reaction) {
+<<<<<<< HEAD
             this.reaction = [{like: data.reaction['like']}, {dislike: data.reaction['dislike']}, {tree: data.reaction['tree']}]; 
         } else {
             this.reaction = [{like: 0}, {dislike: 0}, {tree: 0}]; 
         }; 
         this.comments = 0;
+=======
+            this.reaction = data.reaction;
+        } else {
+            this.reaction = [{like: 0}, {dislike: 0}, {tree: 0}]; 
+        }
+        if(data.comments){
+            this.comments = data.comments;
+        } else{
+            this.coments = [];
+        }
+        
+>>>>>>> greta/staging
     }
 
     static create(data){
@@ -59,7 +71,6 @@ class Entry {
 
     static addReaction(id, reaction){
         try {
-            console.log("entering switch.")
             let entry = Entry.findById(id);
             let count;
             switch(reaction) {
@@ -93,12 +104,18 @@ class Entry {
                 console.warn()
         }
     }
-
     //add comment
+    static addComment(id, comment){
+        let entry = this.findById(id); 
+        entry.comments.push(comment);
+        entriesData[id] = entry; 
+        write(entriesData);
+    }
 
     //add giphy
+
 
    
 }
 
-module.exports = Entry;
+module.exports = {Entry, read, write};
