@@ -229,6 +229,9 @@ function commentBox(id) {
   commentDiv.appendChild(commentBox);
   commentDiv.appendChild(submitBtn);
 
+  function 
+
+
 
 }
 
