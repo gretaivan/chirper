@@ -173,6 +173,7 @@ messageBox.addEventListener("keyup",function(){
   wordCount.innerText = characters.length;
   if(characters.length > 150){
     messageBox.value = messageBox.value.substring(0,150);
+    alert('You have gone over the character limit of 150 characters.');
     wordCount.innerText = 150; 
   }
 })

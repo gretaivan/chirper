@@ -22,7 +22,7 @@ giphyButton.addEventListener('click', addGiphy);
 
 },{"./journal":2}],2:[function(require,module,exports){
 // variables for testing
-const hekoruURL = "https://chirper-uk.herokuapp.com"
+const hekoruURL = "https://chirper-uk.herokuapp.com/"
 const testingURL = "http://localhost:3000"
 
 function handleJournalSubmit(e) {
@@ -196,6 +196,7 @@ messageBox.addEventListener("keyup",function(){
   wordCount.innerText = characters.length;
   if(characters.length > 150){
     messageBox.value = messageBox.value.substring(0,150);
+    alert('You have gone over the character limit of 150 characters.');
     wordCount.innerText = 150; 
   }
 })
