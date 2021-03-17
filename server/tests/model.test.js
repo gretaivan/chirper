@@ -1,11 +1,19 @@
-const {Entry, read} = require('../models/entry');
-
 const DB = require('../db.json');
+const Entry = require('../models/entry');
+const utils = require('../controllers/utils')
+
+
+
 
 describe('JSON file access', () => {
+    beforeEach(() => { 
+        utils.write = jest.fn((obj) => {
+            console.log("mocked JSON file update")
+        })
+
+    })
     it('should read all the objects from JSON database', () => {
-        const allEntries = read(); 
-        expect(allEntries.length).toBe(DB.length)
+        expect(Entry.all.length).toBe(DB.length)
     });
 
     // it('should call write function', () => {
@@ -25,7 +33,7 @@ describe('JSON file access', () => {
 //     beforeEach(() => {
 //         write = jest.fn()
 //     })
-describe('Entry model tests', () => {
+describe('Journal entry model tests', () => {
    
     beforeEach(() => {
         allEntries = jest.fn(() => {
@@ -38,9 +46,22 @@ describe('Entry model tests', () => {
             }
         ]
         })
+        //model.write = jest.fn();
     });
 
-    
+    // it('checks if write is mock', () => {
+
+    //     let testEntry = {
+    //         "entry":"Model saving test",
+    //         "date":"17/03/2021"
+    //     }
+    //     const write = jest.spyOn(write)
+    //     allEntries.push(testEntry)
+    //     write(allEntries);
+    //     expect(allEntries.length).toBe(14)
+    // })
+    // it('when new Entry is created it should return an object');
+
 
 
     
