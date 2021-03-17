@@ -1,5 +1,5 @@
 // variables for testing
-const hekoruURL = "https://chirper-uk.herokuapp.com"
+const herokuURL = "https://chirper-uk.herokuapp.com"
 const testingURL = "http://localhost:3000"
 
 function handleJournalSubmit(e) {
@@ -209,16 +209,23 @@ messageBox.addEventListener("keyup",function(){
         //
 
 function commentBox(id) {
-  const commentDiv = document.createElement('div');
+
+  const checkCommentBox = document.getElementById('commentForm');
+  if (checkCommentBox) {
+    checkCommentBox.remove();
+  }
+
+  const commentForm = document.createElement('form');
   const commentBox = document.createElement('textarea');
   const entryBox = document.getElementById(id)
   const submitBtn = document.createElement('input')
   
-  commentDiv.name = id
+  commentForm.name = id
   commentBox.name = id
+  commentBox.className = 'form-control'
   submitBtn.name = id
 
-  commentDiv.id = 'commentDiv'
+  commentForm.id = 'commentForm'
   commentBox.id = 'comment'
   submitBtn.id = 'submitBtn'
 
@@ -227,47 +234,47 @@ function commentBox(id) {
   submitBtn.value = 'Submit Comment'
 
 
-  commentDiv.className += 'd-flex justify-content-start text-center';
+  commentForm.className += 'd-flex justify-content-start text-center';
   
 
-  entryBox.appendChild(commentDiv);
-  commentDiv.appendChild(commentBox);
-  commentDiv.appendChild(submitBtn);
+  entryBox.appendChild(commentForm);
+  commentForm.appendChild(commentBox);
+  commentForm.appendChild(submitBtn); 
 
-  function 
-
-
+  commentForm.addEventListener('submit', submitComment)
 
 }
 
 
 
-//#2
-/*
 function submitComment(e) {
   e.preventDefault();
   
-  const currentDate = new Date();
-  const dateTime = `${currentDate.getDate()}/${
-    currentDate.getMonth() + 1
-  }/${currentDate.getFullYear()} @ ${currentDate.getHours()}:${currentDate.getMinutes()}`;
-  
-  const journalData = {
-    entry: e.target.message.value,
-    date: dateTime,
+  const commentData = {
+    id: e.submitter.name,
+    comment: e.target.comment.value,
   };
 
-  console.log(journalData);
+  console.log(commentData);
 
   const options = {
-    method: 'POST',
-    body: JSON.stringify(journalData),
+    method: 'PATCH',
+    body: JSON.stringify(commentData),
     headers: {
       'Content-Type': 'application/json',
     },
   };
-*/
-//----------------------------------------------------------------------
+
+  fetch(`${testingURL}/entry/comment`, options)
+    .then((r) => r.json())
+    .then(updateComment)
+    .catch(console.warn);
+}
+
+function updateComment(data) {
+
+}
+
 function addGiphy() {
   console.log('test')
   // get search term //
