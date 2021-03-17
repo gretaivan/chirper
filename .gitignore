@@ -1,3 +1,6 @@
 client/node_modules
 server/node_modules
+client/coverage
 server/coverage
+.vscode
+.DS_Store
