@@ -3,7 +3,7 @@ const fs = require('fs');
 
 //READ from JSON file
 function read(){
-    let entries = fs.readFileSync('../db.json', 'utf-8');
+    let entries = fs.readFileSync('db.json', 'utf-8');
     entries = JSON.parse(entries);
     return entries;
 }
@@ -14,7 +14,7 @@ function write(obj ){
         console.log("json file has been updated")
     }
     let stringified = JSON.stringify(obj);
-    fs.writeFile('../db.json', stringified, 'utf8', message);
+    fs.writeFile('db.json', stringified, 'utf8', message);
 }
 
 let entriesData = read();
@@ -25,7 +25,11 @@ class Entry {
         this.id = data.id;
         this.entry = data.entry;
         this.date = data.date; 
-        this.reaction = [{like: data.reaction['like'] || 0}, {dislike: data.reaction['dislike'] || 0}, {tree: data.reaction['tree'] || 0}]; 
+        if (data.reaction) {
+            this.reaction = [{like: data.reaction['like']}, {dislike: data.reaction['dislike']}, {tree: data.reaction['tree']}]; 
+        } else {
+            this.reaction = [{like: 0}, {dislike: 0}, {tree: 0}]; 
+        }; 
         this.comments = 0;
     }
 
