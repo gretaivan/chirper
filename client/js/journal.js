@@ -1,5 +1,5 @@
 // variables for testing
-const hekoruURL = "https://chirper-uk.herokuapp.com/"
+const hekoruURL = "https://chirper-uk.herokuapp.com"
 const testingURL = "http://localhost:3000"
 
 function handleJournalSubmit(e) {
@@ -136,6 +136,8 @@ function appendEntry(data) {
 
   reactionDiv.className += 'd-flex justify-content-end text-center';
 
+  entryDiv.className += 'entry-box';
+
   like.className += 'px-3 reaction';
   dislike.className += 'px-3 reaction';
   tree.className += 'px-3 reaction';
@@ -144,7 +146,7 @@ function appendEntry(data) {
   like.innerHTML = `<i class="fas fa-thumbs-up fa-2x"></i><p>${data.reaction[0].like}</p>`;
   dislike.innerHTML = `<i class="fas fa-thumbs-down fa-2x"></i><p>${data.reaction[1].dislike}</p>`;
   tree.innerHTML = `<i class="fab fa-pagelines fa-2x"></i><p>${data.reaction[2].tree}</p>`;
-  comment.innerHTML = `<i class="fas fa-comment fa-2x"></i>>`
+  comment.innerHTML = `<i class="fas fa-comment fa-2x"></i>`
 
   reactionDiv.appendChild(like);
   reactionDiv.appendChild(dislike);
@@ -153,6 +155,7 @@ function appendEntry(data) {
 
   entryDiv.id = data.id;
   date.textContent = data.date;
+  date.className += 'entry-date';
   name.textContent = 'Anonymous';
 
   entryDiv.appendChild(date);
@@ -165,6 +168,7 @@ function appendEntry(data) {
   } else {
     const entry = document.createElement('p');
     entry.textContent = `"${data.entry}"`;
+    entry.className += 'entry-message';
     entryDiv.appendChild(entry);
   }
   entryDiv.appendChild(reactionDiv);
@@ -188,6 +192,7 @@ messageBox.addEventListener("keyup",function(){
   wordCount.innerText = characters.length;
   if(characters.length > 150){
     messageBox.value = messageBox.value.substring(0,150);
+    alert('You have gone over the character limit of 150 characters.');
     wordCount.innerText = 150; 
   }
 })
@@ -281,6 +286,8 @@ function addGiphy() {
 }
 
 function displayGifs(gifs) {
+    const giphyArea = document.getElementById('giphy-form');
+    giphyArea.className = '';
     console.log(gifs)
     // receives the first img path with fixed height //
     let imageData = gifs.data;
@@ -353,6 +360,10 @@ function submitGif(url) {
     .then((r) => r.json())
     .then(appendEntry)
     .catch(console.warn);
+
+  
+  const giphyArea = document.getElementById('giphy-form');
+  giphyArea.className = 'd-none';
 }
 module.exports = {
   handleJournalSubmit,
