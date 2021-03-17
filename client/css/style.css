@@ -58,3 +58,18 @@ input[type='submit']:hover,
 .entry-message {
   padding: 0px 10px 0px 10px;
 }
+
+.comment-box {
+  border: 1px solid #7cc576;
+  padding: 10px;
+  margin: 10px;
+}
+
+.comment-box h5 {
+  margin-top: 0;
+  font-size: 1.2rem;
+}
+
+.comment-box p {
+  padding: 0px 10px 0px 10px;
+}
