@@ -1,6 +1,7 @@
 const express = require('express');
 const router = express.Router();
 
+
 const { Entry } = require('../models/entry');
 
 router.post('/', (req, res) => {
