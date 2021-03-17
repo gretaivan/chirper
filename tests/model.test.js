@@ -1,14 +1,18 @@
 const DB = require('../db.json');
 const Entry = require('../models/entry');
+const utils = require('../controllers/utils')
 
-// jest.mock('../models/entry')
 
 
 
 describe('JSON file access', () => {
+    beforeEach(() => { 
+        utils.write = jest.fn((obj) => {
+            console.log("mocked JSON file update")
+        })
+
+    })
     it('should read all the objects from JSON database', () => {
-        // const allEntries = fs.read(); 
-        
         expect(Entry.all.length).toBe(DB.length)
     });
 
