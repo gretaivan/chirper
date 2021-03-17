@@ -21,6 +21,12 @@ function handleJournalSubmit(e) {
   }
 }
 
+function handleJournalSubmit2(e) {
+    console.log(e);
+    console.log("submit handler")
+    submitJournal(e);
+}
+
 function submitJournal(e) {
   e.preventDefault();
   const currentDate = new Date();
@@ -403,6 +409,7 @@ function submitGif(url) {
 }
 module.exports = {
   handleJournalSubmit,
+  handleJournalSubmit2,
   submitJournal,
   appendEntry,
   appendEntries,
