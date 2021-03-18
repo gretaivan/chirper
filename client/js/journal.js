@@ -31,7 +31,7 @@ function submitJournal(e) {
     },
   };
   
-  fetch(`${herokuURL}/entry`, options)
+  fetch(`${testingURL}/entry`, options)
     .then((r) => r.json())
     .then(appendEntry)
     .catch(console.warn);
@@ -169,7 +169,7 @@ function submitReaction(id, reaction) {
   };
 
 
-  fetch(`${herokuURL}/entry/reaction`, options)
+  fetch(`${testingURL}/entry/reaction`, options)
     .then((r) => r.json())
     .then(updateReaction)
     .catch(console.warn);
@@ -189,7 +189,7 @@ function updateReaction(data) {
 
 // Request an entry
 function requestEntries() {
-  fetch(`${herokuURL}/entry`)
+  fetch(`${testingURL}/entry`)
     .then((r) => r.json())
     .then(appendEntries)
     .catch(console.warn);
@@ -206,7 +206,7 @@ function commentBox(id) {
   const commentBox = document.createElement('textarea');
   const entryBox = document.getElementById(id)
   const submitBtn = document.createElement('input')
-  
+
   commentForm.id = 'commentForm'
   commentForm.name = id
 
@@ -229,6 +229,8 @@ function commentBox(id) {
 
 }
 
+
+
 // Submit comment box
 function submitComment(e) {
   e.preventDefault();
@@ -248,7 +250,7 @@ function submitComment(e) {
     },
   };
 
-  fetch(`${herokuURL}/entry/comment`, options)
+  fetch(`${testingURL}/entry/comment`, options)
     .then((r) => r.json())
     .then(updateComment)
     .catch(console.warn);
@@ -359,7 +361,7 @@ function submitGif(url) {
     },
   };
 
-  fetch(`${herokuURL}/entry`, options)
+  fetch(`${testingURL}/entry`, options)
     .then((r) => r.json())
     .then(appendEntry)
     .catch(console.warn);
