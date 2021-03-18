@@ -1,11 +1,15 @@
 //Testing the functionalities of the app on the client side // 
-
 // imports //
 const fs = require('fs');
 const path = require('path');
+//const { runInThisContext } = require('vm');
 const html = fs.readFileSync(path.resolve(__dirname, '../index.html'), 'utf8');
-//global.fetch = require('jest-fetch-mock');
+global.fetch = require('jest-fetch-mock');
 const journal = require('../js/journal')
+const mockEvent = require('./mockEvent')
+
+
+// global.fetch = require('jest-fetch-mock').enableMocks()
 
 let testEntry = { id:0,entry:"Yo whats up lets save the planet",date:"25/04/2373",reaction:[{like:0},{dislike:0},{tree:0}],comments:["first comment"]};
 // app functions 
@@ -18,8 +22,11 @@ describe('app', () => {
         // const fakeSubmitJournal = {
         //     preventDefault: jest.fn(),
             
+
         // }})
-        journal.submitJournal = jest.fn(() => { console.log('Submitted') });
+        journal.submitJournal = jest.fn(() => { 
+            console.log('Submitted') 
+        });
         
     })
 
@@ -115,6 +122,83 @@ describe('Entry content type',( ) => {
         expect(img.src).toMatch(giphy);
     });
 });
+
+describe('Adding Reactions',( ) => {
+    it('should call submit reaction function when reaction is added', () => {
+        const getReactions = document.querySelector('body');
+       // getReactions.addEventListener('click', registerReactions)
+        //getReactions.click()
+
+        // let spy = jest.spyOn(journal, 'registerReactions');
+        // journal.registerReactions(e)
+
+
+
+        // expect( journal.registerReactions.mock.calls.length).toBe(1)
+
+
+        //let path = document.getElementById('comment')
+        //let event = new MouseEvent("click", {relatedTarget: '#comment'})
+        // event.initMouseEvent(type, canBubble, cancelable, view,
+        //     detail, screenX, screenY, clientX, clientY,
+        //     ctrlKey, altKey, shiftKey, metaKey,
+        //     button, relatedTarget);
+        // journal.registerReactions = jest.fn((event) => {
+         
+        //     let anchor = event;
+        //     if(anchor !== null) {
+        //         if (anchor.id != "comment"){
+        //         //submitReaction(anchor.name, anchor.id)
+        //         return 'success'
+        //         }
+        //         else {
+        //         console.log('comment clicked')
+        //         commentBox(anchor.name)
+        //         }
+        //     }
+        // });
+        
+
+        let event = new mockEvent('like',0)
+
+        journal.submitReaction = jest.fn((one, two) => { 
+            console.log('Submitted' + one + two) 
+        });
+        
+
+        let spy = jest.spyOn(journal, 'registerReactions');
+        
+        try{
+            journal.registerReactions(event)
+        }catch(err){
+            console.warn
+        }
+        
+        expect( journal.registerReactions.mock.calls.length).toBe(1)
+        //expect(journal.registerReactions(event)).to
+
+    });
+
+    it('should add comment box when comment is clicked', () => {
+        
+        let event2 = new mockEvent('comment', 2);
+        try{
+            let spy = jest.spyOn(journal, 'commentBox');
+            journal.registerReactions(event2);
+            
+        }catch(err){
+            console.warn
+            expect(journal.registerReactions(event2)).toThrow()
+            expect( journal.commentBox.mock.calls.length).toBe(1)
+        }
+
+       
+       // expect( journal.registerReactions.mock.calls.length).toBe(1)
+        
+    });
+   
+    //let event2 = new mockEvent('comment', 2);
+});
  //     test('check if character length is equal to word count', () => {
     //         const // lengthTyped = length of text typed into the box
     //         const // valueCount = value from wordCount function
@@ -141,6 +225,4 @@ describe('Entry content type',( ) => {
     //     test('submit giphy button. once radio button is checked and submit giphy button is clicked, giphy shoould appear at the bottom of the page', () => {
 
     //     })
-    // })
-
-
+    // }

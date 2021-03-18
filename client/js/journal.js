@@ -1,6 +1,7 @@
 // Variables to switch between Production server and Testing locally
 const herokuURL = "https://chirper-uk.herokuapp.com"
 const testingURL = "http://localhost:3000"
+const mockEvent = require('../tests/mockEvent')
 
 // Submit Journal Function
 function submitJournal(e) {
@@ -116,23 +117,6 @@ function appendEntry(data) {
     entryDiv.appendChild(date);
     entryDiv.appendChild(name);
 
-
-    /// handling the entry content data
-
-    
-    // const urlCheck = data.entry;
-
-
-    // if (urlCheck.startsWith('https://')) {
-    //   const image = document.createElement('img');
-    //   image.src = data.entry;
-    //   entryDiv.appendChild(image);
-    // } else {
-    //   const entry = document.createElement('p');
-    //   entry.textContent = `"${data.entry}"`;
-    //   entry.className += 'entry-message';
-    //   entryDiv.appendChild(entry);
-    // }
     const entryContent = checkEntryContentType(data.entry);
 
     entryDiv.appendChild(entryContent)
@@ -148,7 +132,6 @@ function appendEntry(data) {
 }
 
 function checkEntryContentType(entry){
-  //const urlCheck = data.entry;
   if (entry.startsWith('https://')) {
       const image = document.createElement('img');
       image.src = entry;
@@ -159,7 +142,6 @@ function checkEntryContentType(entry){
       entryText.className += 'entry-message';
       return entryText;
   }
-
 }
 
 // Find reactions
@@ -170,7 +152,19 @@ function findReactions() {
 
 // Register Reaction
 function registerReactions(e) {
-  let anchor = e.target.closest('a');
+
+  console.log(! e instanceof mockEvent)
+
+  let anchor;
+
+  if(e instanceof mockEvent){
+    anchor = e
+  } else {
+    console.log("original anchor")
+    anchor = e.target.closest('a');
+  }
+  
+
   if(anchor !== null) {
     if (anchor.id != "comment"){
     submitReaction(anchor.name, anchor.id)
@@ -178,8 +172,6 @@ function registerReactions(e) {
     else {
       console.log('comment clicked')
       commentBox(anchor.name)
-      
-      
     }
   }
 }
@@ -202,9 +194,11 @@ function submitReaction(id, reaction) {
   };
 
   fetch(`${herokuURL}/entry/reaction`, options)
-    .then((r) => r.json())
-    .then(updateReaction)
-    .catch(console.warn);
+  .then((r) => r.json())
+  .then(updateReaction)
+  .catch(console.warn);
+
+  
 }
 
 // Update reaction count
@@ -407,9 +401,11 @@ module.exports = {
   appendEntry,
   appendEntries,
   checkEntryContentType,
+  registerReactions,
   requestEntries,
   commentBox,
   addGiphy,
   handleGifs,
-  displayGifs
+  displayGifs,
+  submitReaction
 };
