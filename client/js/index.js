@@ -17,8 +17,7 @@ let messageBox = document.getElementById("messageBox");
 let wordCount = document.getElementById("wordCount");
 
 // Message box char check
-messageBox.addEventListener("keyup", function(){
-  console.log('key pressed')
+messageBox.addEventListener("keyup", function() {
   let characters = messageBox.value.split('');
   wordCount.innerText = characters.length;
   if(characters.length > 150){

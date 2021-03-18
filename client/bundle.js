@@ -18,8 +18,7 @@ let messageBox = document.getElementById("messageBox");
 let wordCount = document.getElementById("wordCount");
 
 // Message box char check
-messageBox.addEventListener("keyup", function(){
-  console.log('key pressed')
+messageBox.addEventListener("keyup", function() {
   let characters = messageBox.value.split('');
   wordCount.innerText = characters.length;
   if(characters.length > 150){
@@ -40,13 +39,19 @@ const testingURL = "http://localhost:3000"
 // Submit Journal Function
 function submitJournal(e) {
   e.preventDefault();
+
+  let entryMessage = e.target.message.value;
+  if(entryMessage > 150){
+    entryMessage = entryMessage.substring(0,150);
+  }
+
   const currentDate = new Date();
   const dateTime = `${currentDate.getDate()}/${
     currentDate.getMonth() + 1
   }/${currentDate.getFullYear()} @ ${currentDate.getHours()}:${currentDate.getMinutes()}`;
 
   const journalData = {
-    entry: e.target.message.value,
+    entry: entryMessage,
     date: dateTime,
   };
 
