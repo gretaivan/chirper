@@ -1,7 +1,8 @@
 const DB = require('../db.json');
 const Entry = require('../models/entry');
 jest.mock('../controllers/utils', () => jest.requireActual('../controllers/__mocks__/utils'))
-const utils = require('../controllers/utils')
+const utils = require('../controllers/utils');
+const { deleteLastEntry } = require('../models/entry');
 
 let testEntries = [
     {        
@@ -147,6 +148,13 @@ describe('Add comment',()=> {
     });
 });
 
+describe('Delete last entry',()=> {
+    it('should delete the last entry', () => {
+        allEntries = utils.read() //DB length + 1 as 1 test case is still there
+        Entry.deleteLastEntry(); 
+        expect(Entry.all.length).toEqual(allEntries.length + 1);
+    })
+})
 
 
     //it()
