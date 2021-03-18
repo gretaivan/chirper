@@ -427,5 +427,6 @@ module.exports = {
   displayGifs,
   submitReaction,
   sendReaction,
-  updateReaction
+  updateReaction, 
+  updateComment
 };

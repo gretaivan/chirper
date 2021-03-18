@@ -208,19 +208,27 @@ describe('Adding Reactions',( ) => {
 });
 
 
- //     test('check if character length is equal to word count', () => {
-    //         const // lengthTyped = length of text typed into the box
-    //         const // valueCount = value from wordCount function
-    //         // expect("lengthTyped").toEqual(valueCount)
-    //     })
-    // })
+describe('Comments',( ) => {
+    it('should create a comment box', () => {
+        journal.commentBox(0)
+        const entryBox = document.getElementById(0).querySelector('div .comment-box')
+        expect(entryBox.innerHTML).toContain('testComment')
+    });
 
-    // describe('reactionCount', () => {
-    //     test('on click of the emoji icon, the number of reactions should increase (below)', () => {
-    //         const clickTimes = document.querySelector('#2 #like p').innerHTML
-    //         expect(clickTimes).toEqual("") // clickTimes === number that appears on the screen
-    //     })
-    // })
+    it('should add a second comment to the comment box', () => {
+
+        testEntry.comments.push("test2 Comment")
+        journal.updateComment(testEntry)
+        journal.commentBox(testEntry.id)
+        const entryBox = document.getElementById(testEntry.id).querySelectorAll('div .comment-box')
+        expect(entryBox.length).toEqual(2)
+        expect(entryBox[1].innerHTML).toContain("test2 Comment")
+    });
+});
+
+
+
+    
 
     // describe('addGiphy', () => {
     //     test('see if the value inputted into the add Giphy textbox is a word which can be used to find a giphy', () => {
