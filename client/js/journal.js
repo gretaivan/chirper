@@ -22,8 +22,6 @@ function submitJournal(e) {
     date: dateTime,
   };
 
-  console.log(journalData);
-
   const options = {
     method: 'POST',
     body: JSON.stringify(journalData),
