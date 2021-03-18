@@ -22,7 +22,7 @@ giphyButton.addEventListener('click', addGiphy);
 
 },{"./journal":2}],2:[function(require,module,exports){
 // variables for testing
-const hekoruURL = "https://chirper-uk.herokuapp.com"
+const herokuURL = "https://chirper-uk.herokuapp.com"
 const testingURL = "http://localhost:3000"
 
 function handleJournalSubmit(e) {
@@ -31,8 +31,15 @@ function handleJournalSubmit(e) {
   if (button === 'entry') {
     submitJournal(e);
   } else if (button === 'giphy') {
+    // run giphy request
     handleGifs(e);
-  } else {
+  
+  } 
+  else if (button === 'giphy') {
+    
+  //TODO:create another 'else if' for submission button
+  }  
+  else {
     // do nothing
   }
 }
@@ -59,7 +66,7 @@ function submitJournal(e) {
     },
   };
 
-  fetch(`${hekoruURL}/entry`, options)
+  fetch(`${herokuURL}/entry`, options)
     .then((r) => r.json())
     .then(appendEntry)
     .catch(console.warn);
@@ -77,8 +84,17 @@ function findReactions() {
 function registerReactions(e) {
   let anchor = e.target.closest('a');
   if(anchor !== null) {
+    if (anchor.id != "comment"){
     submitReaction(anchor.name, anchor.id)
+    }
+    else {
+      console.log('comment clicked')
+      commentBox(anchor.name)
+      
+      
+    }
   } else {
+    
     // do nothing
   }
 }
@@ -99,7 +115,7 @@ function submitReaction(id, reaction) {
     },
   };
 
-  fetch(`${hekoruURL}/entry/reaction`, options)
+  fetch(`${herokuURL}/entry/reaction`, options)
     .then((r) => r.json())
     .then(updateReaction)
     .catch(console.warn);
@@ -118,7 +134,6 @@ function updateReaction(data) {
 }
 
 function appendEntry(data) {
-
 
   const allEntries = document.getElementById('entries');
 
@@ -144,6 +159,8 @@ function appendEntry(data) {
 
   reactionDiv.className += 'd-flex justify-content-end text-center';
 
+  entryDiv.className += 'entry-box';
+
   like.className += 'px-3 reaction';
   dislike.className += 'px-3 reaction';
   tree.className += 'px-3 reaction';
@@ -152,7 +169,7 @@ function appendEntry(data) {
   like.innerHTML = `<i class="fas fa-thumbs-up fa-2x"></i><p>${data.reaction[0].like}</p>`;
   dislike.innerHTML = `<i class="fas fa-thumbs-down fa-2x"></i><p>${data.reaction[1].dislike}</p>`;
   tree.innerHTML = `<i class="fab fa-pagelines fa-2x"></i><p>${data.reaction[2].tree}</p>`;
-  comment.innerHTML = `<i class="fas fa-comment fa-2x"></i>>`
+  comment.innerHTML = `<i class="fas fa-comment fa-2x"></i>`
 
   reactionDiv.appendChild(like);
   reactionDiv.appendChild(dislike);
@@ -161,7 +178,27 @@ function appendEntry(data) {
 
   entryDiv.id = data.id;
   date.textContent = data.date;
+  date.className += 'entry-date';
   name.textContent = 'Anonymous';
+
+  const commentHolder = document.createElement('div');
+  commentHolder.id = `comments-${data.id}`
+  commentHolder.className = 'comments';
+  if (data.comment !== null) {
+    const comments = data.comments;
+    comments.forEach((comment) => {
+      const commentBox = document.createElement('div');
+      commentBox.className = 'comment-box';
+      const commentUser = document.createElement('h5');
+      const theComment = document.createElement('p');
+
+      commentUser.textContent = 'Anonymous';
+      theComment.textContent = `"${comment}"`
+      commentBox.appendChild(commentUser);
+      commentBox.appendChild(theComment);
+      commentHolder.appendChild(commentBox);
+    });
+  }
 
   entryDiv.appendChild(date);
   entryDiv.appendChild(name);
@@ -173,16 +210,17 @@ function appendEntry(data) {
   } else {
     const entry = document.createElement('p');
     entry.textContent = `"${data.entry}"`;
+    entry.className += 'entry-message';
     entryDiv.appendChild(entry);
   }
   entryDiv.appendChild(reactionDiv);
-
+  entryDiv.appendChild(commentHolder)
   allEntries.appendChild(entryDiv);
   findReactions();
 }
 
 function requestEntries() {
-  fetch(`${hekoruURL}/entry`)
+  fetch(`${herokuURL}/entry`)
     .then((r) => r.json())
     .then(appendEntries)
     .catch(console.warn);
@@ -196,9 +234,104 @@ messageBox.addEventListener("keyup",function(){
   wordCount.innerText = characters.length;
   if(characters.length > 150){
     messageBox.value = messageBox.value.substring(0,150);
+    alert('You have gone over the character limit of 150 characters.');
     wordCount.innerText = 150; 
   }
 })
+//----------------------------------------------------------------------
+//add comment box function
+//#1
+//TODO:
+      //create function and invoke here which does the following:
+        //Create another form & event listener
+        //invoke function to create text area/div etc
+        //add eventlistener
+        //Make logic for removing comment box if another comment is clicked
+        //Make comment box hidden if possible
+        //
+
+function commentBox(id) {
+
+  const checkCommentBox = document.getElementById('commentForm');
+  if (checkCommentBox) {
+    checkCommentBox.remove();
+  }
+
+  const commentForm = document.createElement('form');
+  const commentBox = document.createElement('textarea');
+  const entryBox = document.getElementById(id)
+  const submitBtn = document.createElement('input')
+  
+  commentForm.name = id
+  commentBox.name = id
+  commentBox.className = 'form-control'
+  submitBtn.name = id
+
+  commentForm.id = 'commentForm'
+  commentBox.id = 'comment'
+  submitBtn.id = 'submitBtn'
+
+  submitBtn.type = 'submit'
+
+  submitBtn.value = 'Submit Comment'
+
+
+  commentForm.className += 'd-flex justify-content-start text-center';
+  
+
+  entryBox.appendChild(commentForm);
+  commentForm.appendChild(commentBox);
+  commentForm.appendChild(submitBtn); 
+
+  commentForm.addEventListener('submit', submitComment)
+
+}
+
+
+
+function submitComment(e) {
+  e.preventDefault();
+  
+  const commentData = {
+    id: e.submitter.name,
+    comment: e.target.comment.value,
+  };
+
+  console.log(commentData);
+
+  const options = {
+    method: 'PATCH',
+    body: JSON.stringify(commentData),
+    headers: {
+      'Content-Type': 'application/json',
+    },
+  };
+
+  fetch(`${herokuURL}/entry/comment`, options)
+    .then((r) => r.json())
+    .then(updateComment)
+    .catch(console.warn);
+}
+
+function updateComment(data) {
+  const commentHolder = document.getElementById(`comments-${data.id}`);
+  commentHolder.innerHTML = '';
+  if (data.comment !== null) {
+    const comments = data.comments;
+    comments.forEach((comment) => {
+      const commentBox = document.createElement('div');
+      commentBox.className = 'comment-box';
+      const commentUser = document.createElement('h5');
+      const theComment = document.createElement('p');
+
+      commentUser.textContent = 'Anonymous';
+      theComment.textContent = `"${comment}"`
+      commentBox.appendChild(commentUser);
+      commentBox.appendChild(theComment);
+      commentHolder.appendChild(commentBox);
+    });
+  }
+}
 
 function addGiphy() {
   console.log('test')
@@ -218,6 +351,8 @@ function addGiphy() {
 }
 
 function displayGifs(gifs) {
+    const giphyArea = document.getElementById('giphy-form');
+    giphyArea.className = '';
     console.log(gifs)
     // receives the first img path with fixed height //
     let imageData = gifs.data;
@@ -286,18 +421,22 @@ function submitGif(url) {
     },
   };
 
-  fetch(`${hekoruURL}/entry`, options)
+  fetch(`${herokuURL}/entry`, options)
     .then((r) => r.json())
     .then(appendEntry)
     .catch(console.warn);
-}
 
+  
+  const giphyArea = document.getElementById('giphy-form');
+  giphyArea.className = 'd-none';
+}
 module.exports = {
   handleJournalSubmit,
   submitJournal,
   appendEntry,
   appendEntries,
   requestEntries,
+  commentBox,
   addGiphy
 };
 

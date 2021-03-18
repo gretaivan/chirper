@@ -39,3 +39,37 @@ input[type='submit']:hover,
   padding: 25px;
   height: 200px;
 }
+
+.entry-box {
+  border: 1px solid #7cc576;
+  padding: 20px;
+  margin: 5px;
+}
+
+.entry-box h5 {
+  margin-top: -15px;
+}
+
+.entry-date {
+  font-size: 0.8rem;
+  font-style: italic;
+}
+
+.entry-message {
+  padding: 0px 10px 0px 10px;
+}
+
+.comment-box {
+  border: 1px solid #7cc576;
+  padding: 10px;
+  margin: 10px;
+}
+
+.comment-box h5 {
+  margin-top: 0;
+  font-size: 1.2rem;
+}
+
+.comment-box p {
+  padding: 0px 10px 0px 10px;
+}

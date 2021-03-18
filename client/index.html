@@ -33,8 +33,8 @@
             placeholder="What's on your mind?"
             class="form-control mb-2"
           ></textarea>
-          <p>
-            <span id="wordCount">0</span> Characters
+          <p class="text-end">
+            <span id="wordCount">0</span>/150 Characters
           </p>
           <input type="submit" name="entry" id="entry" value="Submit Journal" />
         </form>
@@ -48,7 +48,7 @@
           <button class="main-button">Giphy!
           </button>
         </div>
-        <form id="giphy-form">
+        <form id="giphy-form" class="d-none">
           <div id="giphy-holder" class="row p-1">
             <div class="col">
               <input type="radio" id="1-gif" name="first-gif">
