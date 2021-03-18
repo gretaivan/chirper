@@ -22,19 +22,15 @@ describe('JSON file access', () => {
             let spyWrite = jest.spyOn(utils, 'write'); 
             utils.write(testEntry)
             expect(utils.write.mock.calls.length).toBe(1)
-
             
            // expect(utils.write(testEntry)).toEqual(true)//toEqual(JSON.stringify(testEntry));
 
            
             //let writtenObj = utils.write(testEntry)
            //    expect(spyWrite).toHaveBeenCalled()//toEqual(JSON.stringify(testEntry));
-    
-
 
             // utils.write = jest.fn((o) => utils.write(o))
             
-    
             //Supposed to cover lines 15 - 18 but does not cover in coverage
           //  let spy = jest.spyOn( utils, 'message' );
            // utils.message();
@@ -44,9 +40,10 @@ describe('JSON file access', () => {
             // console.log(spy)
         });
         it('test should not add the written result to JSON file', () => {
+            let preWriteLength = DB.length;
             let spyWrite = jest.spyOn(utils, 'write'); 
             utils.write(testEntry);
-            expect(utils.read().length).toEqual(DB.length)
+            expect(DB.length).toEqual(preWriteLength)
 
         })
     })
@@ -63,9 +60,6 @@ describe('JSON file access', () => {
          });
     })
 
-
- 
-   
     // const MOCK_FILE_INFO = {
     //     '/path/to/utils.js': 'console.log("file1 contents");',
     //   };
@@ -73,8 +67,5 @@ describe('JSON file access', () => {
     // beforeEach(() => {
     //     // Set up some mocked out file info before each test
     //     require('utils').__setMockFiles(MOCK_FILE_INFO);
-    //   });
-
-   
-   
+    //   })
 });
