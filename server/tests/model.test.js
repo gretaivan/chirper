@@ -87,11 +87,13 @@ describe('Find an entry by id',()=> {
         
     it('should returns message that id does not exist when incorrect id is passed', () => {
         try{
-            expect(Entry.findById(10)).toThrowError(TypeError);
+            expect(Entry.findById(Entry.all.length + 1 )).toThrowError(TypeError);
         } 
         catch(err){
             console.warn
         }
+
+       
     });
 });
 
