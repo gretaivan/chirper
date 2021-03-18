@@ -43,13 +43,20 @@ describe('JSON file access', () => {
             // let spy = jest.spyOn(utils.write, 'message'); 
             // console.log(spy)
         });
+        it('test should not add the written result to JSON file', () => {
+            let spyWrite = jest.spyOn(utils, 'write'); 
+            utils.write(testEntry);
+            expect(utils.read().length).toEqual(DB.length)
+
+        })
     })
 
-
-
-  
-
     describe('read JSON file', () => {
+        it('should call utils read function', () => {
+            let spyRead = jest.spyOn(utils, 'read'); 
+            utils.read(testEntry)
+            expect(utils.read.mock.calls.length).toBe(1)
+         });
         it('should read all the entries from JSON file', () => {
             // const allEntries = utils.read(); 
              expect(allEntries.length).toBe(DB.length)
