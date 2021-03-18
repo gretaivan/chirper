@@ -2,30 +2,11 @@
 const herokuURL = "https://chirper-uk.herokuapp.com"
 const testingURL = "http://localhost:3000"
 
-function handleJournalSubmit(e) {
-  console.log(e);
-  const button = e.submitter.name;
-  if (button === 'entry') {
-    submitJournal(e);
-  } else if (button === 'giphy') {
-    // run giphy request
-    handleGifs(e);
-  
-  } 
-  else if (button === 'giphy') {
-    
-  //TODO:create another 'else if' for submission button
-  }  
-  else {
-    // do nothing
-  }
-}
-
-function handleJournalSubmit2(e) {
-    console.log(e);
-    console.log("submit handler")
-    submitJournal(e);
-}
+// function handleJournalSubmit2(e) {
+//     console.log(e);
+//     console.log("submit handler")
+//     submitJournal(e);
+// }
 
 function submitJournal(e) {
   e.preventDefault();
@@ -54,7 +35,7 @@ function submitJournal(e) {
 ///until here
   
   
-  fetch(`${herokuURL}/entry`, options)
+  fetch(`${testingURL}/entry`, options)
     .then((r) => r.json())
     .then(appendEntry)
     .catch(console.warn);
@@ -103,7 +84,7 @@ function submitReaction(id, reaction) {
     },
   };
 
-  fetch(`${herokuURL}/entry/reaction`, options)
+  fetch(`${testingURL}/entry/reaction`, options)
     .then((r) => r.json())
     .then(updateReaction)
     .catch(console.warn);
@@ -208,7 +189,7 @@ function appendEntry(data) {
 }
 
 function requestEntries() {
-  fetch(`${herokuURL}/entry`)
+  fetch(`${testingURL}/entry`)
     .then((r) => r.json())
     .then(appendEntries)
     .catch(console.warn);
@@ -284,7 +265,7 @@ function submitComment(e) {
     },
   };
 
-  fetch(`${herokuURL}/entry/comment`, options)
+  fetch(`${testingURL}/entry/comment`, options)
     .then((r) => r.json())
     .then(updateComment)
     .catch(console.warn);
@@ -398,7 +379,7 @@ function submitGif(url) {
     },
   };
 
-  fetch(`${herokuURL}/entry`, options)
+  fetch(`${testingURL}/entry`, options)
     .then((r) => r.json())
     .then(appendEntry)
     .catch(console.warn);
@@ -408,12 +389,12 @@ function submitGif(url) {
   giphyArea.className = 'd-none';
 }
 module.exports = {
-  handleJournalSubmit,
-  handleJournalSubmit2,
   submitJournal,
   appendEntry,
   appendEntries,
   requestEntries,
   commentBox,
-  addGiphy
+  addGiphy,
+  handleGifs,
+  displayGifs
 };

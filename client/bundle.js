@@ -1,5 +1,5 @@
 (function(){function r(e,n,t){function o(i,f){if(!n[i]){if(!e[i]){var c="function"==typeof require&&require;if(!f&&c)return c(i,!0);if(u)return u(i,!0);var a=new Error("Cannot find module '"+i+"'");throw a.code="MODULE_NOT_FOUND",a}var p=n[i]={exports:{}};e[i][0].call(p.exports,function(r){var n=e[i][1][r];return o(n||r)},p,p.exports,r,e,n,t)}return n[i].exports}for(var u="function"==typeof require&&require,i=0;i<t.length;i++)o(t[i]);return o}return r})()({1:[function(require,module,exports){
-const { handleJournalSubmit, requestEntries, addGiphy } = require('./journal');
+const { requestEntries, handleGifs, submitJournal, addGiphy } = require('./journal');
 
 // Setup querySelectors
 const formJournal = document.querySelector('#journal');
@@ -8,15 +8,26 @@ const giphyForm = document.querySelector('#giphy-form');
 console.log(giphyButton)
 
 // Setup event listeners
-formJournal.addEventListener('submit', handleJournalSubmit);
-giphyForm.addEventListener('submit', handleJournalSubmit);
+formJournal.addEventListener('submit', submitJournal);
+giphyForm.addEventListener('submit', handleGifs);
+giphyButton.addEventListener('click', addGiphy)
 
 document.onload = requestEntries();
 
-// GIPHY event listeners 
+let messageBox = document.getElementById("messageBox");
+let wordCount = document.getElementById("wordCount");
 
-let APIkey = "";
-giphyButton.addEventListener('click', addGiphy);
+messageBox.addEventListener("keyup", function(){
+  console.log('key pressed')
+  let characters = messageBox.value.split('');
+  wordCount.innerText = characters.length;
+  if(characters.length > 150){
+    messageBox.value = messageBox.value.substring(0,150);
+    alert('You have gone over the character limit of 150 characters.');
+    wordCount.innerText = 150; 
+  }
+})
+
 
 
 
@@ -25,24 +36,11 @@ giphyButton.addEventListener('click', addGiphy);
 const herokuURL = "https://chirper-uk.herokuapp.com"
 const testingURL = "http://localhost:3000"
 
-function handleJournalSubmit(e) {
-  console.log(e);
-  const button = e.submitter.name;
-  if (button === 'entry') {
-    submitJournal(e);
-  } else if (button === 'giphy') {
-    // run giphy request
-    handleGifs(e);
-  
-  } 
-  else if (button === 'giphy') {
-    
-  //TODO:create another 'else if' for submission button
-  }  
-  else {
-    // do nothing
-  }
-}
+// function handleJournalSubmit2(e) {
+//     console.log(e);
+//     console.log("submit handler")
+//     submitJournal(e);
+// }
 
 function submitJournal(e) {
   e.preventDefault();
@@ -66,6 +64,11 @@ function submitJournal(e) {
     },
   };
 
+//fetch test should be commented for deploy
+  // fetch(`${testingURL}/entry`, options)
+///until here
+  
+  
   fetch(`${testingURL}/entry`, options)
     .then((r) => r.json())
     .then(appendEntry)
@@ -226,18 +229,7 @@ function requestEntries() {
     .catch(console.warn);
 }
 
-let messageBox = document.getElementById("messageBox");
-let wordCount = document.getElementById("wordCount");
-messageBox.addEventListener("keyup",function(){
-  console.log('key pressed')
-  let characters = messageBox.value.split('');
-  wordCount.innerText = characters.length;
-  if(characters.length > 150){
-    messageBox.value = messageBox.value.substring(0,150);
-    alert('You have gone over the character limit of 150 characters.');
-    wordCount.innerText = 150; 
-  }
-})
+
 //----------------------------------------------------------------------
 //add comment box function
 //#1
@@ -431,13 +423,14 @@ function submitGif(url) {
   giphyArea.className = 'd-none';
 }
 module.exports = {
-  handleJournalSubmit,
   submitJournal,
   appendEntry,
   appendEntries,
   requestEntries,
   commentBox,
-  addGiphy
+  addGiphy,
+  handleGifs,
+  displayGifs
 };
 
 },{}]},{},[1]);
