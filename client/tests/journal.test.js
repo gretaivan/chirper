@@ -80,11 +80,21 @@ describe('app', () => {
         })
     });
 
-    // describe('characterLength', () => {
-    //     test('check if character length is less than 140 characters', () => {
-    //         const charLength = document.querySelector('#wordCount').innerHTML
-    //         expect(charLength < 140)
-    //     })
+    describe('characterLength', () => {
+        test('check if there is a limit to the character length when over 150 characters', () => {
+
+            // comment with over 150 characters //
+            let entry = 'test'.repeat(150);
+
+            // make a new journal entry
+            journal.appendEntry({id:0,entry:"Yo whats up lets save the planet",date:"25/04/2373",reaction:[{like:0},{dislike:0},{tree:0}],comments:[entry]});
+
+            // get text from comment box class // 
+            const charLength = document.querySelector('.comment-box')
+
+            // text with over 150 character should test as having only 150 characters as this is the limit'
+            expect(charLength.textContent.length).toEqual(150)
+        })
 
     //     test('check if character length is equal to word count', () => {
     //         const // lengthTyped = length of text typed into the box
@@ -115,4 +125,4 @@ describe('app', () => {
     // })
 
 
-})
+})})

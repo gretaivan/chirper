@@ -58,19 +58,29 @@ describe('index.html', () => {
             })
 
             test('there is an Anonymous name tag', () => {
-                const anonymousTag = document.querySelectorAll('#entries h5')[0].innerHTML
-                expect(anonymousTag).toBe("Anonymous")
+                journal.appendEntry({id:0,entry:"Yo whats up lets save the planet",date:"25/04/2373",reaction:[{like:0},{dislike:0},{tree:0}],comments:["first comment"]});
+
+                let anonymousTag = document.querySelector('.comment-box')
+                expect(anonymousTag.textContent).toContain("Anonymous")
             })
 
-            test('there is a GIPHY', () => {
-                const giphyContent = document.querySelectorAll('#entries img')
-                expect(giphyContent).toEqualTag('img')
+            test('there is a comment', () => {
+                journal.appendEntry({id:0,entry:"Yo whats up lets save the planet",date:"25/04/2373",reaction:[{like:0},{dislike:0},{tree:0}],comments:["first comment"]});
+
+                let commentContent = document.querySelector('.comment-box')
+                expect(commentContent.textContent).toContain('first comment')
+
             })
 
-            // test('there is a GIPHY or a comment', () => {
-            //     const giphyContent = document.document.querySelectorAll('#entries p #5')
-            //     expect(giphyContent || commentContent).toBeTruthy()
-            // })
+            test('there is a giphy', () => {
+                let key = "9Cizm4XVM8GvD62i82DS39y9oGEE9ERK"
+                let userInput = 'hello'
+                journal.appendEntry({id:0,entry:"Yo whats up lets save the planet",date:"25/04/2373",reaction:[{like:0},{dislike:0},{tree:0}],comments:[`https://api.giphy.com/v1/gifs/search?q=${userInput}&rating=g&api_key=${key}&limit=3`]})
+
+                let giphyContent = document.querySelector('.comment-box')
+                expect(giphyContent.textContent).toContain(key)
+                expect(giphyContent.textContent).toContain(userInput)
+            })
 
         })
     })
