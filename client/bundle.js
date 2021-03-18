@@ -162,6 +162,7 @@ function appendEntry(data) {
   findReactions();
 }
 
+
 // Find reactions
 function findReactions() {
   const getReactions = document.querySelector('body');
@@ -201,6 +202,7 @@ function submitReaction(id, reaction) {
     },
   };
 
+
   fetch(`${testingURL}/entry/reaction`, options)
     .then((r) => r.json())
     .then(updateReaction)
@@ -238,7 +240,7 @@ function commentBox(id) {
   const commentBox = document.createElement('textarea');
   const entryBox = document.getElementById(id)
   const submitBtn = document.createElement('input')
-  
+
   commentForm.id = 'commentForm'
   commentForm.name = id
 
@@ -260,6 +262,8 @@ function commentBox(id) {
   commentForm.addEventListener('submit', submitComment)
 
 }
+
+
 
 // Submit comment box
 function submitComment(e) {

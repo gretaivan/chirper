@@ -115,10 +115,6 @@ function appendEntry(data) {
   
     entryDiv.appendChild(date);
     entryDiv.appendChild(name);
-  
-
-
-
 
 
     /// handling the entry content data
@@ -151,7 +147,6 @@ function appendEntry(data) {
 
 }
 
-
 function checkEntryContentType(entry){
   //const urlCheck = data.entry;
   if (entry.startsWith('https://')) {
@@ -166,6 +161,7 @@ function checkEntryContentType(entry){
   }
 
 }
+
 
 // Find reactions
 function findReactions() {
@@ -206,6 +202,7 @@ function submitReaction(id, reaction) {
     },
   };
 
+
   fetch(`${herokuURL}/entry/reaction`, options)
     .then((r) => r.json())
     .then(updateReaction)
@@ -243,7 +240,7 @@ function commentBox(id) {
   const commentBox = document.createElement('textarea');
   const entryBox = document.getElementById(id)
   const submitBtn = document.createElement('input')
-  
+
   commentForm.id = 'commentForm'
   commentForm.name = id
 
@@ -263,6 +260,8 @@ function commentBox(id) {
   commentForm.addEventListener('submit', submitComment)
 
 }
+
+
 
 // Submit comment box
 function submitComment(e) {
@@ -409,6 +408,7 @@ module.exports = {
   submitJournal,
   appendEntry,
   appendEntries,
+  checkEntryContentType,
   requestEntries,
   commentBox,
   addGiphy,
