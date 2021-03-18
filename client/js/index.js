@@ -1,4 +1,4 @@
-const { handleJournalSubmit, requestEntries, addGiphy } = require('./journal');
+const { requestEntries, handleGifs, submitJournal, addGiphy } = require('./journal');
 
 // Setup querySelectors
 const formJournal = document.querySelector('#journal');
@@ -7,16 +7,17 @@ const giphyForm = document.querySelector('#giphy-form');
 console.log(giphyButton)
 
 // Setup event listeners
-formJournal.addEventListener('submit', handleJournalSubmit);
-giphyForm.addEventListener('submit', handleJournalSubmit);
+formJournal.addEventListener('submit', submitJournal);
+giphyForm.addEventListener('submit', handleGifs);
+giphyButton.addEventListener('click', addGiphy)
 
 document.onload = requestEntries();
 
 let messageBox = document.getElementById("messageBox");
 let wordCount = document.getElementById("wordCount");
 
-messageBox.addEventListener("keyup", function(){
-  console.log('key pressed')
+// Message box char check
+messageBox.addEventListener("keyup", function() {
   let characters = messageBox.value.split('');
   wordCount.innerText = characters.length;
   if(characters.length > 150){

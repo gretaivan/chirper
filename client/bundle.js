@@ -1,5 +1,5 @@
 (function(){function r(e,n,t){function o(i,f){if(!n[i]){if(!e[i]){var c="function"==typeof require&&require;if(!f&&c)return c(i,!0);if(u)return u(i,!0);var a=new Error("Cannot find module '"+i+"'");throw a.code="MODULE_NOT_FOUND",a}var p=n[i]={exports:{}};e[i][0].call(p.exports,function(r){var n=e[i][1][r];return o(n||r)},p,p.exports,r,e,n,t)}return n[i].exports}for(var u="function"==typeof require&&require,i=0;i<t.length;i++)o(t[i]);return o}return r})()({1:[function(require,module,exports){
-const { handleJournalSubmit, requestEntries, addGiphy } = require('./journal');
+const { requestEntries, handleGifs, submitJournal, addGiphy } = require('./journal');
 
 // Setup querySelectors
 const formJournal = document.querySelector('#journal');
@@ -8,51 +8,50 @@ const giphyForm = document.querySelector('#giphy-form');
 console.log(giphyButton)
 
 // Setup event listeners
-formJournal.addEventListener('submit', handleJournalSubmit);
-giphyForm.addEventListener('submit', handleJournalSubmit);
+formJournal.addEventListener('submit', submitJournal);
+giphyForm.addEventListener('submit', handleGifs);
+giphyButton.addEventListener('click', addGiphy)
 
 document.onload = requestEntries();
 
-// GIPHY event listeners 
+let messageBox = document.getElementById("messageBox");
+let wordCount = document.getElementById("wordCount");
 
-let APIkey = "";
-giphyButton.addEventListener('click', addGiphy);
+// Message box char check
+messageBox.addEventListener("keyup", function() {
+  let characters = messageBox.value.split('');
+  wordCount.innerText = characters.length;
+  if(characters.length > 150){
+    messageBox.value = messageBox.value.substring(0,150);
+    alert('You have gone over the character limit of 150 characters.');
+    wordCount.innerText = 150; 
+  }
+})
+
 
 
 
 },{"./journal":2}],2:[function(require,module,exports){
-// variables for testing
+// Variables to switch between Production server and Testing locally
 const herokuURL = "https://chirper-uk.herokuapp.com"
 const testingURL = "http://localhost:3000"
 
-function handleJournalSubmit(e) {
-  console.log(e);
-  const button = e.submitter.name;
-  if (button === 'entry') {
-    submitJournal(e);
-  } else if (button === 'giphy') {
-    // run giphy request
-    handleGifs(e);
-  
-  } 
-  else if (button === 'giphy') {
-    
-  //TODO:create another 'else if' for submission button
-  }  
-  else {
-    // do nothing
-  }
-}
-
+// Submit Journal Function
 function submitJournal(e) {
   e.preventDefault();
+
+  let entryMessage = e.target.message.value;
+  if(entryMessage > 150){
+    entryMessage = entryMessage.substring(0,150);
+  }
+
   const currentDate = new Date();
   const dateTime = `${currentDate.getDate()}/${
     currentDate.getMonth() + 1
   }/${currentDate.getFullYear()} @ ${currentDate.getHours()}:${currentDate.getMinutes()}`;
 
   const journalData = {
-    entry: e.target.message.value,
+    entry: entryMessage,
     date: dateTime,
   };
 
@@ -65,17 +64,23 @@ function submitJournal(e) {
       'Content-Type': 'application/json',
     },
   };
+<<<<<<< HEAD
 
+=======
+  
+>>>>>>> upstream/staging
   fetch(`${testingURL}/entry`, options)
     .then((r) => r.json())
     .then(appendEntry)
     .catch(console.warn);
 }
 
+// Append a array of entries
 function appendEntries(entries) {
   entries.forEach((entry) => appendEntry(entry));
 }
 
+<<<<<<< HEAD
 function findReactions() {
   const getReactions = document.querySelector('body');
   getReactions.addEventListener('click', registerReactions)
@@ -133,8 +138,10 @@ function updateReaction(data) {
   
 }
 
+=======
+// Append a single entry
+>>>>>>> upstream/staging
 function appendEntry(data) {
-
   const allEntries = document.getElementById('entries');
 
   const entryDiv = document.createElement('div');
@@ -219,6 +226,64 @@ function appendEntry(data) {
   findReactions();
 }
 
+// Find reactions
+function findReactions() {
+  const getReactions = document.querySelector('body');
+  getReactions.addEventListener('click', registerReactions)
+}
+
+// Register Reaction
+function registerReactions(e) {
+  let anchor = e.target.closest('a');
+  if(anchor !== null) {
+    if (anchor.id != "comment"){
+    submitReaction(anchor.name, anchor.id)
+    }
+    else {
+      console.log('comment clicked')
+      commentBox(anchor.name)
+      
+      
+    }
+  }
+}
+
+// Submit a reaction
+function submitReaction(id, reaction) {
+  console.log(id);
+  console.log(reaction);
+  const reactionData = {
+    id: id,
+    reaction: reaction,
+  };
+
+  const options = {
+    method: 'POST',
+    body: JSON.stringify(reactionData),
+    headers: {
+      'Content-Type': 'application/json',
+    },
+  };
+
+  fetch(`${testingURL}/entry/reaction`, options)
+    .then((r) => r.json())
+    .then(updateReaction)
+    .catch(console.warn);
+}
+
+// Update reaction count
+function updateReaction(data) {
+  let parent = document.getElementById(data.id);
+  let like = parent.querySelector('#like p')
+  let dislike = parent.querySelector('#dislike p')
+  let tree = parent.querySelector('#tree p')
+
+  like.textContent = data.reaction[0].like
+  dislike.textContent = data.reaction[1].dislike
+  tree.textContent = data.reaction[2].tree
+}
+
+// Request an entry
 function requestEntries() {
   fetch(`${testingURL}/entry`)
     .then((r) => r.json())
@@ -226,32 +291,8 @@ function requestEntries() {
     .catch(console.warn);
 }
 
-let messageBox = document.getElementById("messageBox");
-let wordCount = document.getElementById("wordCount");
-messageBox.addEventListener("keyup",function(){
-  console.log('key pressed')
-  let characters = messageBox.value.split('');
-  wordCount.innerText = characters.length;
-  if(characters.length > 150){
-    messageBox.value = messageBox.value.substring(0,150);
-    alert('You have gone over the character limit of 150 characters.');
-    wordCount.innerText = 150; 
-  }
-})
-//----------------------------------------------------------------------
-//add comment box function
-//#1
-//TODO:
-      //create function and invoke here which does the following:
-        //Create another form & event listener
-        //invoke function to create text area/div etc
-        //add eventlistener
-        //Make logic for removing comment box if another comment is clicked
-        //Make comment box hidden if possible
-        //
-
+// Create comment box
 function commentBox(id) {
-
   const checkCommentBox = document.getElementById('commentForm');
   if (checkCommentBox) {
     checkCommentBox.remove();
@@ -262,33 +303,29 @@ function commentBox(id) {
   const entryBox = document.getElementById(id)
   const submitBtn = document.createElement('input')
   
+  commentForm.id = 'commentForm'
   commentForm.name = id
+
+  commentBox.id = 'comment'
   commentBox.name = id
   commentBox.className = 'form-control'
-  submitBtn.name = id
 
-  commentForm.id = 'commentForm'
-  commentBox.id = 'comment'
   submitBtn.id = 'submitBtn'
-
+  submitBtn.name = id
   submitBtn.type = 'submit'
-
   submitBtn.value = 'Submit Comment'
 
-
   commentForm.className += 'd-flex justify-content-start text-center';
-  
 
   entryBox.appendChild(commentForm);
+
   commentForm.appendChild(commentBox);
   commentForm.appendChild(submitBtn); 
-
   commentForm.addEventListener('submit', submitComment)
 
 }
 
-
-
+// Submit comment box
 function submitComment(e) {
   e.preventDefault();
   
@@ -313,6 +350,7 @@ function submitComment(e) {
     .catch(console.warn);
 }
 
+// Update comment section
 function updateComment(data) {
   const commentHolder = document.getElementById(`comments-${data.id}`);
   commentHolder.innerHTML = '';
@@ -333,6 +371,7 @@ function updateComment(data) {
   }
 }
 
+// Add Giphy
 function addGiphy() {
   console.log('test')
   // get search term //
@@ -350,6 +389,7 @@ function addGiphy() {
   .then(displayGifs)
 }
 
+// Display the returned Gifs
 function displayGifs(gifs) {
     const giphyArea = document.getElementById('giphy-form');
     giphyArea.className = '';
@@ -366,16 +406,9 @@ function displayGifs(gifs) {
 
       button.innerHTML = `<img src="${imgURL}">`;
     }
-
-
-    // let selectImage = imageData[0]
-    // let imgURL = selectImage.images.fixed_height.url
-    // // create //
-    // let image = document.createElement("img")
-    // image.setAttribute("src", imgURL)
-    // document.body.appendChild(image)
 }
 
+// Handle the submitted Gif
 function handleGifs(e) {
   e.preventDefault();
   let radio;
@@ -400,6 +433,7 @@ function handleGifs(e) {
   submitGif(url);
 }
 
+// Submit the gif as a new entry
 function submitGif(url) {
   const currentDate = new Date();
   const dateTime = `${currentDate.getDate()}/${
@@ -430,14 +464,17 @@ function submitGif(url) {
   const giphyArea = document.getElementById('giphy-form');
   giphyArea.className = 'd-none';
 }
+
+// Exports
 module.exports = {
-  handleJournalSubmit,
   submitJournal,
   appendEntry,
   appendEntries,
   requestEntries,
   commentBox,
-  addGiphy
+  addGiphy,
+  handleGifs,
+  displayGifs
 };
 
 },{}]},{},[1]);
