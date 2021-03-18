@@ -27,9 +27,10 @@ module.exports = {
         // }
         let stringified = JSON.stringify(obj);
 
-        fs.writeFile = jest.fn(message())
-        //fs.writeFile('db.json', stringified, 'utf8', message);
-        return stringified;
+        fs.writeFile = jest.fn(() => {
+            console.log('called fn')
+            utils.message();
+        })
     }
 
  
