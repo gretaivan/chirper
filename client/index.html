@@ -31,52 +31,104 @@
       <img src="images/logo.png" alt="logo" class="rounded mx-auto d-block" />
     </header>
     <!-- MAIN -->
-    <main class="container">
-      <!-- NEW ENTRY DIV -->
-      <div class="entry p-3">
-        <!-- NEW JOURNAL -->
-        <form id="journal">
-          <textarea id="messageBox"
-            name="message"
-            placeholder="What's on your mind?"
-            class="form-control mb-2"
-          ></textarea>
-          <p class="text-end">
-            <span id="wordCount">0</span>/150 Characters
-          </p>
-          <input type="submit" name="entry" id="entry" value="Submit Journal" />
-        </form>
-      </br>
-        <!-- NEW JOURNAL WITH GIF -->
-        <div>
-          <textarea id="giphytwo"
-            name="message"
-            placeholder="Search for a GIF instead?"
-            class="form-control mb-2"
-          ></textarea>
-          <button class="main-button">Giphy!
-          </button>
-        </div>
-        <form id="giphy-form" class="d-none">
-          <div id="giphy-holder" class="row p-1">
-            <div class="col">
-              <input type="radio" id="1-gif" name="first-gif">
-              <a id="giphy-1" class="giphy-image"></a>
-            </div>
-            <div class="col">
-              <input type="radio" id="2-gif" name="first-gif">
-              <a id="giphy-2" class="giphy-image"></a>
-            </div>
-            <div class="col">
-              <input type="radio" id="3-gif" name="first-gif">
-              <a id="giphy-3" class="giphy-image"></a>
+    <main>
+      <div class="row">
+        <section class="left-section col-lg-3 d-none d-lg-flex justify-content-center">
+          <div>
+            <div class="nav-holder">
+            <ul class="nav-icons">
+              <li><a href="#"><i class="fas fa-home"></i> HOME</a></li>
+              <li><a href="#"><i class="fas fa-hashtag"></i> EXPLORE</a></li>
+              <li><a href="#"><i class="fas fa-bell"></i> NOTIFICATIONS</a></li>
+              <li><a href="#"><i class="fas fa-envelope"></i> MESSAGES</a></li>
+              <li><a href="#"><i class="fas fa-map-marker"></i> BOOKMARKS</a></li>
+              <li><a href="#"><i class="fas fa-list-alt"></i> LISTS</a></li>
+              <li><a href="#"><i class="fas fa-users"></i> PEOPLE</a></li>
+              <li><a href="#"><i class="fas fa-angle-double-right"></i> MORE</a></li>
+            </ul>
             </div>
           </div>
-          <input type="submit" name="giphy" id="giphy" value="Submit Giphy" />
-        </form>
+        </section>
+        <section class="main-section col-lg-6">
+          <!-- NEW ENTRY DIV -->
+          <div class="entry p-3">
+            <!-- NEW JOURNAL -->
+            <form id="journal">
+              <textarea id="messageBox"
+                name="message"
+                placeholder="What's on your mind?"
+                class="form-control mb-2"
+              ></textarea>
+              <div class="d-flex justify-content-between">
+                <input type="submit" name="entry" id="entry" value="Submit Journal" />
+                <p class="text-end">
+                  <span id="wordCount">0</span>/150 Characters
+                </p>
+              </div>
+            </form>
+          </br>
+            <!-- NEW JOURNAL WITH GIF -->
+            <div>
+              <textarea id="giphytwo"
+                name="message"
+                placeholder="Search for a GIF instead?"
+                class="form-control mb-2"
+              ></textarea>
+              <button class="main-button">Giphy!
+              </button>
+            </div>
+            <form id="giphy-form" class="d-none">
+              <div id="giphy-holder" class="row p-1">
+                <div class="col">
+                  <input type="radio" id="1-gif" name="first-gif">
+                  <a id="giphy-1" class="giphy-image"></a>
+                </div>
+                <div class="col">
+                  <input type="radio" id="2-gif" name="first-gif">
+                  <a id="giphy-2" class="giphy-image"></a>
+                </div>
+                <div class="col">
+                  <input type="radio" id="3-gif" name="first-gif">
+                  <a id="giphy-3" class="giphy-image"></a>
+                </div>
+              </div>
+              <input type="submit" name="giphy" id="giphy" value="Submit Giphy" />
+            </form>
+          </div>
+          <!-- WHERE THE ENTRIES WILL APPEND -->
+          <div id="entries"></div>
+        </section>
+        <section class="right-section col-lg-3 d-none d-lg-flex justify-content-center px-5">
+          <div>
+            <form id="fake-search">
+              <input type="text" class="search-bar" placeholder="Search...">
+            </form>
+            <div class="trending">
+              <div class="trending-title">
+                <h4>Trending:</h4>
+              </div>
+              <div class="trending-article">
+                <p>Green Energy - 1 Hour Ago</p>
+                <h5>Plans made by UK goverment to renew green energy agreement</h5>
+                <a href="#">View Journal</a>
+              </div>
+              <div class="trending-article">
+                <p>Green Energy - 1 Hour Ago</p>
+                <h5>Plans made by UK goverment to renew green energy agreement</h5>
+                <a href="#">View Journal</a>
+              </div>
+              <div class="trending-article">
+                <p>Green Energy - 1 Hour Ago</p>
+                <h5>Plans made by UK goverment to renew green energy agreement</h5>
+                <a href="#">View Journal</a>
+              </div>
+              <div class="trending-more">
+                <a href="#">Show more</a>
+              </div>
+            </div>
+          </div>
+        </section>
       </div>
-      <!-- WHERE THE ENTRIES WILL APPEND -->
-      <div id="entries"></div>
     </main>
     <!-- FOOTER -->
     <footer></footer>
