@@ -179,7 +179,6 @@ describe('Adding Reactions',( ) => {
         }
         
         expect( journal.registerReactions.mock.calls.length).toBe(1)
-        //expect(journal.registerReactions(event)).to
 
     });
 
@@ -199,9 +198,16 @@ describe('Adding Reactions',( ) => {
         journal.registerReactions(event2);
         expect(journal.sendReaction(event2)).toEqual('mock send reaction')
     });
-   
-    //let event2 = new mockEvent('comment', 2);
+
+    it('should display added reaction', () => {
+        testEntry.reaction[0].like = 1;
+        journal.updateReaction(testEntry); 
+
+        expect(testEntry.reaction[0].like).toEqual(1)
+    })
 });
+
+
  //     test('check if character length is equal to word count', () => {
     //         const // lengthTyped = length of text typed into the box
     //         const // valueCount = value from wordCount function
