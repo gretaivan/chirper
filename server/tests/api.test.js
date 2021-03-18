@@ -29,12 +29,12 @@ describe('API server test', () => {
     });
 
 describe('Route "/" ', () => { 
-    it('responds to request get /  with status code 200', done => { 
+    it('should GET with status code 200', done => { 
         request(apiServer)
             .get('/')
             .expect(200, done) 
     });
-    it('responds to request get /  and return message', done => { 
+    it('shoul GET and return message', done => { 
         request(apiServer)
             .get('/')
             .expect("Hello there!", done)
@@ -83,6 +83,30 @@ describe('Route "/entry" ', () => {
     });
 });  
     
+
+describe('Route "/reaction" ', () => { 
+    it('should POST with status 201', (done) => {
+
+        request(apiServer)
+            .post('/reaction') 
+            .send({id: 5, reaction: 'like'}) 
+            .expect(201, done) 
+    })
+    it('should POST and returns the object', (done) => {
+
+        request(apiServer)
+            .post('/reaction') 
+            .send({id: 5, reaction: 'like'}) 
+            .expect(Entry.findById(5), done) 
+    })
+})
+
+describe('Route "/comment" ', () => { 
+    it('should PATCH with status 201 ', () => {
+
+    })
+})
+    //Something wrong with callback function here? 
 //    
 
 //     it('responds to request get /entry  with status code 200', (done) => {

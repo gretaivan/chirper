@@ -7,7 +7,7 @@
     "test": "tests"
   },
   "scripts": {
-    "test": "jest --watchAll",
+    "test": "jest --watchAll --verbose --silent --coverage",
     "coverage": "jest --coverage",
     "dev": "concurrently \"watchify ./js/index.js -o bundle.js\" \"python -m http.server\""
   },
