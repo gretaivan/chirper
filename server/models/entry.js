@@ -100,6 +100,7 @@ class Entry {
     static deleteLastEntry(){
         entriesData.pop();
     }
+    
 
 
     //add giphy
@@ -108,4 +109,4 @@ class Entry {
    
 }
 
-module.exports = Entry, entriesData;
+module.exports = Entry;

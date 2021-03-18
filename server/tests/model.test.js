@@ -3,21 +3,20 @@ const Entry = require('../models/entry');
 jest.mock('../controllers/utils', () => jest.requireActual('../controllers/__mocks__/utils'))
 const utils = require('../controllers/utils')
 
-
-
-//let allEntries = utils.read();
-
-let testEntries = [{        
-    "entry":"First test to test model entry",
-    "date":"17/3/2021 @ 13:02",
-    "reaction":[{"like":19},{"dislike":4},{"tree":1}],
-    "comments":0
-},
-{
-    "entry":"Second test to test model entry",
-    "date":"17/3/2021 @ 13:02"
-}
+let testEntries = [
+    {        
+        "entry":"First test to test model entry",
+        "date":"17/3/2021 @ 13:02",
+        "reaction":[{"like":19},{"dislike":4},{"tree":1}],
+        "comments":0
+    },
+    {
+        "entry":"Second test to test model entry",
+        "date":"17/3/2021 @ 13:02"
+    }
 ]    
+
+const createdEntries = testEntries.map( ent => Entry.create(ent)); 
 
 
 describe('Create journal entry', () => {
@@ -30,7 +29,7 @@ describe('Create journal entry', () => {
     //mockFn.mock.instances[0] === a; // true
     //.mock.instances[1] === b; // true
     let allEntries = utils.read();
-    const createdEntries = testEntries.map( ent => Entry.create(ent)); 
+    
 
 
     it('should create a journal entry and return instace of Entry ', () => {
@@ -79,26 +78,61 @@ describe('Get all entries', () => {
 });
    
 
-describe('should find an entry by id',()=> {
-    it('when correct id is passed it finds the entry and returns it', () => {
-        // try{
+describe('Find an entry by id',()=> {
+    it('should find the entry when correct id is passed  and returns it', () => {
             let allEntries = utils.read()
             expect(Entry.findById(0)).toEqual(allEntries[0])
-            // expect(Entry.findById(10)).toEqual(allEntries[allEntries.length])
-        //  } catch { console.warn }
     });
         
-    it('when incorrect id is passed it returns message that id does not exist', () => {
+    it('should returns message that id does not exist when incorrect id is passed', () => {
         try{
             expect(Entry.findById(10)).toThrowError(TypeError);
-            expect(drinkOctopus).toThrowError(/^ID is out of bounds$/);
         } 
         catch(err){
             console.warn
         }
     });
 });
-        
+
+describe('Add reaction',()=> {
+    it('should add like to the second test entry', () => {
+        let testInstanceIndex = Entry.all.length - 1; 
+
+        Entry.addReaction(testInstanceIndex, 'like');
+
+        expect(createdEntries[1].reaction[0].like).toEqual(1)
+    });
+
+    it('should add dislike to the second test entry', () => {
+        let testInstanceIndex = Entry.all.length - 1; 
+
+        Entry.addReaction(testInstanceIndex, 'dislike');
+
+        expect(createdEntries[1].reaction[1].dislike).toEqual(1)
+    })
+
+    it('should add tree to the second test entry', () => {
+        let testInstanceIndex = Entry.all.length - 1; 
+
+        Entry.addReaction(testInstanceIndex, 'tree');
+
+        expect(createdEntries[1].reaction[2].tree).toEqual(1)
+    })
+
+    it('should throw error if unexpected reaction is passed', () => {
+        let testInstanceIndex = Entry.all.length - 1; 
+
+        try{
+            expect(Entry.addReaction(testInstanceIndex, 'hello')).toThrow()
+        } 
+        catch(err){
+            console.warn
+        }
+    });
+
+});   
+
+describe('Add comment',()=> {});
     //it()
     // beforeEach(() => { 
     //     utils.write = jest.fn((obj) => {
