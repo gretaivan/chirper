@@ -115,10 +115,6 @@ function appendEntry(data) {
   
     entryDiv.appendChild(date);
     entryDiv.appendChild(name);
-  
-
-
-
 
 
     /// handling the entry content data
@@ -150,7 +146,6 @@ function appendEntry(data) {
   }   
 
 }
-
 
 function checkEntryContentType(entry){
   //const urlCheck = data.entry;
@@ -411,6 +406,7 @@ module.exports = {
   submitJournal,
   appendEntry,
   appendEntries,
+  checkEntryContentType,
   requestEntries,
   commentBox,
   addGiphy,

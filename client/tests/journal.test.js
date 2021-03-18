@@ -103,9 +103,18 @@ describe('characterLength', () => {
     });
 })});
 
-describe('',( ) => {
+describe('Entry content type',( ) => {
+    it('should create paragraph if entry is text', () => {
+        let entry = 'hello'
+        expect(journal.checkEntryContentType(entry).textContent).toBe("\"hello\"")
+    });
 
-})
+    it('should create image if entry is GIPHY', () => {
+        let giphy = "https://media1.giphy.com/media/888R35MJTmDxQfRzfS/200.gif?cid=e672865d9c8r481cuh391oyaor6mp645h1il1w20cwi8ygza&rid=200.gif"
+        let img = journal.checkEntryContentType(giphy)
+        expect(img.src).toMatch(giphy);
+    });
+});
  //     test('check if character length is equal to word count', () => {
     //         const // lengthTyped = length of text typed into the box
     //         const // valueCount = value from wordCount function
