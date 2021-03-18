@@ -2,7 +2,7 @@
 
 [![MIT license](https://img.shields.io/badge/License-MIT-blue.svg)](https://lbesson.mit-license.org/)
 [![GitHub forks](https://img.shields.io/github/forks/gretaivan/chirper.svg?style=social&label=Fork&maxAge=2592000)](https://github.com/gretaivan/chirper/network)
-[![GitHub contributors](https://img.shields.io/github/contributors/gretaivan/chirper.svg)](https://github.com/gretaivan/chirper/graphs/contributors/)
+[![Github all releases](https://img.shields.io/github/downloads/gretaivan/chirper/total.svg)](https://GitHub.com/gretaivan/chirper/releases/)
 
 
 
