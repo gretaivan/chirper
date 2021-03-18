@@ -44,88 +44,127 @@ function appendEntries(entries) {
 
 // Append a single entry
 function appendEntry(data) {
-  const allEntries = document.getElementById('entries');
 
-  const entryDiv = document.createElement('div');
-  const date = document.createElement('p');
-  const name = document.createElement('h5');
-
-  const reactionDiv = document.createElement('div');
-  const like = document.createElement('a');
-  const dislike = document.createElement('a');
-  const tree = document.createElement('a');
-  const comment = document.createElement('a');
-
-  like.id = `like`
-  dislike.id = `dislike`
-  tree.id = `tree`
-  comment.id = `comment`
-
-  like.name = `${data.id}`
-  dislike.name = `${data.id}`
-  tree.name = `${data.id}`
-  comment.name = `${data.id}`
-
-  reactionDiv.className += 'd-flex justify-content-end text-center';
-
-  entryDiv.className += 'entry-box';
-
-  like.className += 'px-3 reaction';
-  dislike.className += 'px-3 reaction';
-  tree.className += 'px-3 reaction';
-  comment.className += 'px-3 reaction';
-
-  like.innerHTML = `<i class="fas fa-thumbs-up fa-2x"></i><p>${data.reaction[0].like}</p>`;
-  dislike.innerHTML = `<i class="fas fa-thumbs-down fa-2x"></i><p>${data.reaction[1].dislike}</p>`;
-  tree.innerHTML = `<i class="fab fa-pagelines fa-2x"></i><p>${data.reaction[2].tree}</p>`;
-  comment.innerHTML = `<i class="fas fa-comment fa-2x"></i>`
-
-  reactionDiv.appendChild(like);
-  reactionDiv.appendChild(dislike);
-  reactionDiv.appendChild(tree);
-  reactionDiv.appendChild(comment);
-
-  entryDiv.id = data.id;
-  date.textContent = data.date;
-  date.className += 'entry-date';
-  name.textContent = 'Anonymous';
-
-  const commentHolder = document.createElement('div');
-  commentHolder.id = `comments-${data.id}`
-  commentHolder.className = 'comments';
-  if (data.comment !== null) {
-    const comments = data.comments;
-    comments.forEach((comment) => {
-      const commentBox = document.createElement('div');
-      commentBox.className = 'comment-box';
-      const commentUser = document.createElement('h5');
-      const theComment = document.createElement('p');
-
-      commentUser.textContent = 'Anonymous';
-      theComment.textContent = `"${comment}"`
-      commentBox.appendChild(commentUser);
-      commentBox.appendChild(theComment);
-      commentHolder.appendChild(commentBox);
-    });
-  }
-
-  entryDiv.appendChild(date);
-  entryDiv.appendChild(name);
-  const urlCheck = data.entry;
-  if (urlCheck.startsWith('https://')) {
-    const image = document.createElement('img');
-    image.src = data.entry;
-    entryDiv.appendChild(image);
+  if(data.entry.length > 150 ){
+    throw new Error ('over char limit!')
   } else {
-    const entry = document.createElement('p');
-    entry.textContent = `"${data.entry}"`;
-    entry.className += 'entry-message';
-    entryDiv.appendChild(entry);
+    const allEntries = document.getElementById('entries');
+
+    const entryDiv = document.createElement('div');
+    const date = document.createElement('p');
+    const name = document.createElement('h5');
+  
+    const reactionDiv = document.createElement('div');
+    const like = document.createElement('a');
+    const dislike = document.createElement('a');
+    const tree = document.createElement('a');
+    const comment = document.createElement('a');
+  
+    like.id = `like`
+    dislike.id = `dislike`
+    tree.id = `tree`
+    comment.id = `comment`
+  
+    like.name = `${data.id}`
+    dislike.name = `${data.id}`
+    tree.name = `${data.id}`
+    comment.name = `${data.id}`
+  
+    reactionDiv.className += 'd-flex justify-content-end text-center';
+  
+    entryDiv.className += 'entry-box';
+  
+    like.className += 'px-3 reaction';
+    dislike.className += 'px-3 reaction';
+    tree.className += 'px-3 reaction';
+    comment.className += 'px-3 reaction';
+  
+    like.innerHTML = `<i class="fas fa-thumbs-up fa-2x"></i><p>${data.reaction[0].like}</p>`;
+    dislike.innerHTML = `<i class="fas fa-thumbs-down fa-2x"></i><p>${data.reaction[1].dislike}</p>`;
+    tree.innerHTML = `<i class="fab fa-pagelines fa-2x"></i><p>${data.reaction[2].tree}</p>`;
+    comment.innerHTML = `<i class="fas fa-comment fa-2x"></i>`
+  
+    reactionDiv.appendChild(like);
+    reactionDiv.appendChild(dislike);
+    reactionDiv.appendChild(tree);
+    reactionDiv.appendChild(comment);
+  
+    entryDiv.id = data.id;
+    date.textContent = data.date;
+    date.className += 'entry-date';
+    name.textContent = 'Anonymous';
+  
+    const commentHolder = document.createElement('div');
+    commentHolder.id = `comments-${data.id}`
+    commentHolder.className = 'comments';
+    if (data.comment !== null) {
+      const comments = data.comments;
+      comments.forEach((comment) => {
+        const commentBox = document.createElement('div');
+        commentBox.className = 'comment-box';
+        const commentUser = document.createElement('h5');
+        const theComment = document.createElement('p');
+  
+        commentUser.textContent = 'Anonymous';
+        theComment.textContent = `"${comment}"`
+        commentBox.appendChild(commentUser);
+        commentBox.appendChild(theComment);
+        commentHolder.appendChild(commentBox);
+      });
+    }
+  
+    entryDiv.appendChild(date);
+    entryDiv.appendChild(name);
+  
+
+
+
+
+
+    /// handling the entry content data
+
+    
+    // const urlCheck = data.entry;
+
+
+    // if (urlCheck.startsWith('https://')) {
+    //   const image = document.createElement('img');
+    //   image.src = data.entry;
+    //   entryDiv.appendChild(image);
+    // } else {
+    //   const entry = document.createElement('p');
+    //   entry.textContent = `"${data.entry}"`;
+    //   entry.className += 'entry-message';
+    //   entryDiv.appendChild(entry);
+    // }
+    const entryContent = checkEntryContentType(data.entry);
+
+    entryDiv.appendChild(entryContent)
+
+
+
+    entryDiv.appendChild(reactionDiv);
+    entryDiv.appendChild(commentHolder)
+    allEntries.appendChild(entryDiv);
+    findReactions();
+  }   
+
+}
+
+
+function checkEntryContentType(entry){
+  //const urlCheck = data.entry;
+  if (entry.startsWith('https://')) {
+      const image = document.createElement('img');
+      image.src = entry;
+      return image;
+  } else {
+      const entryText = document.createElement('p');
+      entryText.textContent = `"${entry}"`;
+      entryText.className += 'entry-message';
+      return entryText;
   }
-  entryDiv.appendChild(reactionDiv);
-  entryDiv.appendChild(commentHolder)
-  allEntries.appendChild(entryDiv);
-  findReactions();
+
 }
 
 // Find reactions
