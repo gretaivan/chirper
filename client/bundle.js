@@ -66,7 +66,7 @@ function submitJournal(e) {
     },
   };
 
-  fetch(`${herokuURL}/entry`, options)
+  fetch(`${testingURL}/entry`, options)
     .then((r) => r.json())
     .then(appendEntry)
     .catch(console.warn);
@@ -115,7 +115,7 @@ function submitReaction(id, reaction) {
     },
   };
 
-  fetch(`${herokuURL}/entry/reaction`, options)
+  fetch(`${testingURL}/entry/reaction`, options)
     .then((r) => r.json())
     .then(updateReaction)
     .catch(console.warn);
@@ -220,7 +220,7 @@ function appendEntry(data) {
 }
 
 function requestEntries() {
-  fetch(`${herokuURL}/entry`)
+  fetch(`${testingURL}/entry`)
     .then((r) => r.json())
     .then(appendEntries)
     .catch(console.warn);
@@ -307,7 +307,7 @@ function submitComment(e) {
     },
   };
 
-  fetch(`${herokuURL}/entry/comment`, options)
+  fetch(`${testingURL}/entry/comment`, options)
     .then((r) => r.json())
     .then(updateComment)
     .catch(console.warn);
@@ -421,7 +421,7 @@ function submitGif(url) {
     },
   };
 
-  fetch(`${herokuURL}/entry`, options)
+  fetch(`${testingURL}/entry`, options)
     .then((r) => r.json())
     .then(appendEntry)
     .catch(console.warn);
