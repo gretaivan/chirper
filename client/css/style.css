@@ -1,3 +1,4 @@
+@import url('https://fonts.googleapis.com/css2?family=Courgette&family=Indie+Flower&family=Lobster&family=Pacifico&family=Satisfy&display=swap');
 main {
   border-left: 5px solid #7cc576;
   border-right: 5px solid #7cc576;
@@ -24,6 +25,14 @@ input[type='submit']:hover,
   background-color: #7cc576;
 }
 
+#submitBtn {
+  background-color: #bee2bb;
+  border-radius: 25px;
+  border: 0;
+  padding: 5px 50px 5px 50px;
+  margin: 10px 10px 10px 10px;
+}
+
 .reaction {
   color: #bee2bb;
   text-decoration: none;
@@ -44,25 +53,31 @@ input[type='submit']:hover,
   border: 1px solid #7cc576;
   padding: 20px;
   margin: 5px;
+  border-radius: 15px;
 }
 
 .entry-box h5 {
   margin-top: -15px;
+  font-family: 'Courgette', cursive;
+
 }
 
 .entry-date {
   font-size: 0.8rem;
   font-style: italic;
+  font-family: 'Courgette', cursive;
 }
 
 .entry-message {
   padding: 0px 10px 0px 10px;
+  font-family: 'Courgette', cursive;
 }
 
 .comment-box {
   border: 1px solid #7cc576;
   padding: 10px;
   margin: 10px;
+  border-radius: 15px;
 }
 
 .comment-box h5 {
