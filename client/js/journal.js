@@ -154,7 +154,8 @@ function findReactions() {
 // Register Reaction
 function registerReactions(e) {
 
-  console.log(! e instanceof mockEvent)
+  console.log("Is it a mock event? ")
+  console.log(e instanceof mockEvent)
 
   let anchor;
 
@@ -179,12 +180,30 @@ function registerReactions(e) {
 
 // Submit a reaction
 function submitReaction(id, reaction) {
-  console.log(id);
-  console.log(reaction);
+
   const reactionData = {
     id: id,
     reaction: reaction,
   };
+
+  // const options = {
+  //   method: 'POST',
+  //   body: JSON.stringify(reactionData),
+  //   headers: {
+  //     'Content-Type': 'application/json',
+  //   },
+  // };
+
+
+  // fetch(`${herokuURL}/entry/reaction`, options)
+  // .then((r) => r.json())
+  // .then(updateReaction)
+  // .catch(console.warn);
+
+  sendReaction(reactionData);
+}
+
+function sendReaction(reactionData){
 
   const options = {
     method: 'POST',
@@ -194,13 +213,10 @@ function submitReaction(id, reaction) {
     },
   };
 
-
   fetch(`${herokuURL}/entry/reaction`, options)
   .then((r) => r.json())
   .then(updateReaction)
   .catch(console.warn);
-
-  
 }
 
 // Update reaction count
@@ -409,5 +425,7 @@ module.exports = {
   addGiphy,
   handleGifs,
   displayGifs,
-  submitReaction
+  submitReaction,
+  sendReaction,
+  updateReaction
 };

@@ -53,8 +53,6 @@ describe('index.html', () => {
 
                 let entryDate = document.querySelector('.entry-date');
                 expect(entryDate.textContent).toEqual("25/04/2373");
-
-                console.log(entryDate.textContent)
             })
 
             test('there is an Anonymous name tag', () => {

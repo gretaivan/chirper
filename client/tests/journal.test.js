@@ -9,12 +9,11 @@ const journal = require('../js/journal')
 const mockEvent = require('./mockEvent')
 
 
-// global.fetch = require('jest-fetch-mock').enableMocks()
+
 
 let testEntry = { id:0,entry:"Yo whats up lets save the planet",date:"25/04/2373",reaction:[{like:0},{dislike:0},{tree:0}],comments:["first comment"]};
-// app functions 
 
-describe('app', () => {
+describe('Creating new journal entry', () => {
 
     beforeEach(() => {
         document.documentElement.innerHTML = html.toString();
@@ -27,6 +26,11 @@ describe('app', () => {
         journal.submitJournal = jest.fn(() => { 
             console.log('Submitted') 
         });
+        jest.disableAutomock();
+
+        journal.sendReaction = jest.fn((data) =>{
+            return 'mock send reaction'
+        })
         
     })
 
@@ -180,21 +184,20 @@ describe('Adding Reactions',( ) => {
     });
 
     it('should add comment box when comment is clicked', () => {
-        
+        jest.enableAutomock();
         let event2 = new mockEvent('comment', 2);
+
         try{
             let spy = jest.spyOn(journal, 'commentBox');
             journal.registerReactions(event2);
-            
         }catch(err){
             console.warn
             expect(journal.registerReactions(event2)).toThrow()
             expect( journal.commentBox.mock.calls.length).toBe(1)
         }
 
-       
-       // expect( journal.registerReactions.mock.calls.length).toBe(1)
-        
+        journal.registerReactions(event2);
+        expect(journal.sendReaction(event2)).toEqual('mock send reaction')
     });
    
     //let event2 = new mockEvent('comment', 2);
