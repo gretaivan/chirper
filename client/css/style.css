@@ -100,7 +100,7 @@ input[type='submit']:hover,
   
   padding: 25px 35px 25px 35px;
   border-radius: 25px;
-  background-color: #8edd87;
+  background-color: #50884b;
 }
 
 .nav-icons li {
@@ -109,7 +109,7 @@ input[type='submit']:hover,
 }
 
 .nav-icons a {
-  color: #50884b;
+  color: white;
   text-decoration: none;
   font-weight: bold;
 }
@@ -127,7 +127,8 @@ input[type='submit']:hover,
 }
 
 .trending {
-  background-color: #8edd87;
+  background-color: #50884b;
+  color: white;
   border-radius: 25px;
   padding: 25px;
 }
@@ -138,7 +139,7 @@ input[type='submit']:hover,
 
 .trending a {
   font-weight: bold;
-  color: #50884b;
+  color: #7cc576;
   text-decoration: none;
 }
 
@@ -147,12 +148,12 @@ input[type='submit']:hover,
 }
 
 .trending-title {
-  border-bottom: 1px solid #50884b;
+  border-bottom: 1px solid #7cc576;
 }
 
 .trending-article {
   padding: 10px 0 10px 0;
-  border-bottom: 1px solid #50884b;
+  border-bottom: 1px solid #7cc576;
 }
 
 .trending-more {

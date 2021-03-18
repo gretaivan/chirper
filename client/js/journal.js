@@ -256,8 +256,6 @@ function commentBox(id) {
   submitBtn.type = 'submit'
   submitBtn.value = 'Submit Comment'
 
-  commentForm.className += 'd-flex justify-content-start text-center';
-
   entryBox.appendChild(commentForm);
 
   commentForm.appendChild(commentBox);
