@@ -9,13 +9,14 @@ module.exports = {
         return entries;
     },
 
+    message: function(){
+        console.log("json file has been updated")
+    },
+
     //WRITE instance to the JSON file
     write: function (obj){
-        function message(){
-            console.log("json file has been updated")
-        }
+       
         let stringified = JSON.stringify(obj);
-        fs.writeFile('db.json', stringified, 'utf8', message);
+        fs.writeFile('db.json', stringified, 'utf8', this.message);
     }
-
 }

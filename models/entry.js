@@ -1,21 +1,5 @@
 const utils = require('../controllers/utils');
 
-// //READ from JSON file
-// function read(){
-//     let entries = fs.readFileSync('db.json', 'utf-8');
-//     entries = JSON.parse(entries);
-//     return entries;
-// }
-
-// //WRITE instance to the JSON file
-// function write(obj){
-//     function message(){
-//         console.log("json file has been updated")
-//     }
-//     let stringified = JSON.stringify(obj);
-//     fs.writeFile('db.json', stringified, 'utf8', message);
-// }
-
 let entriesData = utils.read()
 
 class Entry { 
@@ -112,6 +96,12 @@ class Entry {
         entriesData[id] = entry; 
         utils.write(entriesData);
     }
+
+    static deleteLastEntry(){
+        entriesData.pop();
+    }
+    
+
 
     //add giphy
 
