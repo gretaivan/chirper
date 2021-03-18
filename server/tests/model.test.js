@@ -132,7 +132,23 @@ describe('Add reaction',()=> {
 
 });   
 
-describe('Add comment',()=> {});
+describe('Add comment',()=> {
+    it('should change default comment property to be an array', () => {
+        let testInstanceIndex = Entry.all.length - 1; 
+        Entry.addComment(testInstanceIndex, 'This is a test comment');
+
+        expect(createdEntries[1].comments).toBeInstanceOf(Array)
+    });
+    it('should add comment to the second test entry', () => {
+        let testInstanceIndex = Entry.all.length - 1; 
+        //Entry.addComment(testInstanceIndex, 'This is a test comment');
+
+        expect(createdEntries[1].comments[0]).toEqual('This is a test comment')
+    });
+});
+
+
+
     //it()
     // beforeEach(() => { 
     //     utils.write = jest.fn((obj) => {
