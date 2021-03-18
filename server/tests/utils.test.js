@@ -40,6 +40,7 @@ describe('JSON file access', () => {
         //Supposed to cover lines 15 - 18 but does not cover in coverage
         let spy = jest.spyOn( utils, 'message' );
         utils.message();
+        // utils.write(testEntry);
         expect(spy).toHaveBeenCalled();
         // let spy = jest.spyOn(utils.write, 'message'); 
         // console.log(spy)

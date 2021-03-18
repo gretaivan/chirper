@@ -51,13 +51,22 @@ class Entry {
     }
 
     static findById(id){
-        try{
+         try{
             const entry = entriesData.filter((e) => e.id === id)[0];
-            console.log(`ID CHECK: ${entry.id}`)
+            //console.log(entry)
+            if(entry != undefined){
+                //console.log(`ID CHECK: ${entry.id}`)
                 return entry;
-        } catch(err){
-            let errorStr = `Entry by ${id} does not exist!`;
-            throw new Error(errorStr);
+            }
+            else{
+                throw new TypeError ('ID is out of bounds');
+            }
+           
+         } catch(err){
+        //    let errorStr = `Entry by ${id} does not exist ${err}!`;
+        //     //throw err;
+        //     throw new ReferenceError(errorStr);
+            err
         }
     }
 
