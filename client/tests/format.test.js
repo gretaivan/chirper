@@ -21,7 +21,7 @@ describe('index.html', () => {
 
         // check there is a messagebox //
         test('it has a message box with a placeholder', () => {
-            const mainEntryBox = document.querySelector('.container #journal #messageBox')
+            const mainEntryBox = document.querySelector('#journal #messageBox')
             expect(mainEntryBox).toBeTruthy() 
         })
 
