@@ -80,39 +80,33 @@ describe('app', () => {
         })
     });
 
-    describe('characterLength', () => {
-        test('should throw an error when character length when over 150 characters', () => {
+describe('characterLength', () => {
+    test('should throw an error when character length when over 150 characters', () => {
+        let entry = 'test'.repeat(150);
 
-            // comment with over 150 characters //
-            let entry = 'test'.repeat(150);
+        // text with over 150 character should test as having only 150 characters as this is the limit'
+        try{
+            expect(journal.appendEntry({id:0,entry:entry,date:"25/04/2373",reaction:[{like:0},{dislike:0},{tree:0}],comments:[entry]})).toThrowError(Error)
+        } catch(err){
+            console.warn
+        } 
+    })
+    test('should append entry with correct character length', () => {
 
-            // text with over 150 character should test as having only 150 characters as this is the limit'
-            try{
-                expect(journal.appendEntry({id:0,entry:entry,date:"25/04/2373",reaction:[{like:0},{dislike:0},{tree:0}],comments:[entry]})).toThrowError(Error)
-            } catch(err){
-                console.warn
-            } 
-        })
-        test('should append entry with correct character length', () => {
+        let entry = 'test'.repeat(34);
+        let testEntry = {id:0,entry:entry,date:"25/04/2373",reaction:[{like:0},{dislike:0},{tree:0}], comments: ["testComment1"]}
+        journal.appendEntry(testEntry)
 
-            let entry = 'test'.repeat(34);
-            let testEntry = {id:0,entry:entry,date:"25/04/2373",reaction:[{like:0},{dislike:0},{tree:0}], comments: ["testComment1"]}
-            journal.appendEntry(testEntry)
-            // get text from entry box class // 
+        const charLength = document.querySelector('.entry-message')
 
-              // get text from comment box class // 
-            //  const charLength = document.querySelector('.comment-box')
+        expect(charLength.textContent).toEqual(`"${entry}"`); 
+    });
+})});
 
-              // text with over 150 character should test as having only 150 characters as this is the limit'
-          //    expect(charLength.textContent.length).toEqual(150)
+describe('',( ) => {
 
-            const charLength = document.querySelector('.entry-message')
-
-            expect(charLength.textContent).toEqual(`"${entry}"`); 
-            
-        })
-
-    //     test('check if character length is equal to word count', () => {
+})
+ //     test('check if character length is equal to word count', () => {
     //         const // lengthTyped = length of text typed into the box
     //         const // valueCount = value from wordCount function
     //         // expect("lengthTyped").toEqual(valueCount)
@@ -141,4 +135,3 @@ describe('app', () => {
     // })
 
 
-})})

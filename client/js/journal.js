@@ -116,23 +116,54 @@ function appendEntry(data) {
     entryDiv.appendChild(date);
     entryDiv.appendChild(name);
   
-    const urlCheck = data.entry;
-    if (urlCheck.startsWith('https://')) {
-      const image = document.createElement('img');
-      image.src = data.entry;
-      entryDiv.appendChild(image);
-    } else {
-      const entry = document.createElement('p');
-      entry.textContent = `"${data.entry}"`;
-      entry.className += 'entry-message';
-      entryDiv.appendChild(entry);
-    }
+
+
+
+
+
+    /// handling the entry content data
+
+    
+    // const urlCheck = data.entry;
+
+
+    // if (urlCheck.startsWith('https://')) {
+    //   const image = document.createElement('img');
+    //   image.src = data.entry;
+    //   entryDiv.appendChild(image);
+    // } else {
+    //   const entry = document.createElement('p');
+    //   entry.textContent = `"${data.entry}"`;
+    //   entry.className += 'entry-message';
+    //   entryDiv.appendChild(entry);
+    // }
+    const entryContent = checkEntryContentType(data.entry);
+
+    entryDiv.appendChild(entryContent)
+
+
+
     entryDiv.appendChild(reactionDiv);
     entryDiv.appendChild(commentHolder)
     allEntries.appendChild(entryDiv);
     findReactions();
-
   }   
+
+}
+
+
+function checkEntryContentType(entry){
+  //const urlCheck = data.entry;
+  if (entry.startsWith('https://')) {
+      const image = document.createElement('img');
+      image.src = entry;
+      return image;
+  } else {
+      const entryText = document.createElement('p');
+      entryText.textContent = `"${entry}"`;
+      entryText.className += 'entry-message';
+      return entryText;
+  }
 
 }
 
