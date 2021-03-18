@@ -49,16 +49,12 @@ function submitJournal(e) {
     },
   };
 
-<<<<<<< HEAD
-  fetch(`${testingURL}/entry`, options)
-=======
 //fetch test should be commented for deploy
   // fetch(`${testingURL}/entry`, options)
 ///until here
   
   
   fetch(`${herokuURL}/entry`, options)
->>>>>>> upstream/staging
     .then((r) => r.json())
     .then(appendEntry)
     .catch(console.warn);
