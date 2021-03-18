@@ -15,11 +15,22 @@ module.exports = {
     },
 
     //WRITE instance to the JSON file
+    // write: function (obj){
+    //     this.message;
+    //     let stringified = JSON.stringify(obj);
+    //     return stringified;
+    //     //fs.writeFile('db.json', stringified, 'utf8', message);
+    // }
     write: function (obj){
-        this.message;
+        // function message(){
+        //     console.log("json file has been updated")
+        // }
         let stringified = JSON.stringify(obj);
-        return stringified;
-        //fs.writeFile('db.json', stringified, 'utf8', message);
+
+        fs.writeFile = jest.fn(() => {
+            console.log('called fn')
+            utils.message();
+        })
     }
 
  

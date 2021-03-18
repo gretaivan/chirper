@@ -1,5 +1,5 @@
 (function(){function r(e,n,t){function o(i,f){if(!n[i]){if(!e[i]){var c="function"==typeof require&&require;if(!f&&c)return c(i,!0);if(u)return u(i,!0);var a=new Error("Cannot find module '"+i+"'");throw a.code="MODULE_NOT_FOUND",a}var p=n[i]={exports:{}};e[i][0].call(p.exports,function(r){var n=e[i][1][r];return o(n||r)},p,p.exports,r,e,n,t)}return n[i].exports}for(var u="function"==typeof require&&require,i=0;i<t.length;i++)o(t[i]);return o}return r})()({1:[function(require,module,exports){
-const { handleJournalSubmit, requestEntries, addGiphy } = require('./journal');
+const { requestEntries, handleGifs, submitJournal, addGiphy } = require('./journal');
 
 // Setup querySelectors
 const formJournal = document.querySelector('#journal');
@@ -8,51 +8,51 @@ const giphyForm = document.querySelector('#giphy-form');
 console.log(giphyButton)
 
 // Setup event listeners
-formJournal.addEventListener('submit', handleJournalSubmit);
-giphyForm.addEventListener('submit', handleJournalSubmit);
+formJournal.addEventListener('submit', submitJournal);
+giphyForm.addEventListener('submit', handleGifs);
+giphyButton.addEventListener('click', addGiphy)
 
 document.onload = requestEntries();
 
-// GIPHY event listeners 
+let messageBox = document.getElementById("messageBox");
+let wordCount = document.getElementById("wordCount");
 
-let APIkey = "";
-giphyButton.addEventListener('click', addGiphy);
+// Message box char check
+messageBox.addEventListener("keyup", function() {
+  let characters = messageBox.value.split('');
+  wordCount.innerText = characters.length;
+  if(characters.length > 150){
+    messageBox.value = messageBox.value.substring(0,150);
+    alert('You have gone over the character limit of 150 characters.');
+    wordCount.innerText = 150; 
+  }
+})
+
 
 
 
 },{"./journal":2}],2:[function(require,module,exports){
-// variables for testing
+// Variables to switch between Production server and Testing locally
 const herokuURL = "https://chirper-uk.herokuapp.com"
 const testingURL = "http://localhost:3000"
+const mockEvent = require('../tests/mockEvent')
 
-function handleJournalSubmit(e) {
-  console.log(e);
-  const button = e.submitter.name;
-  if (button === 'entry') {
-    submitJournal(e);
-  } else if (button === 'giphy') {
-    // run giphy request
-    handleGifs(e);
-  
-  } 
-  else if (button === 'giphy') {
-    
-  //TODO:create another 'else if' for submission button
-  }  
-  else {
-    // do nothing
-  }
-}
-
+// Submit Journal Function
 function submitJournal(e) {
   e.preventDefault();
+
+  let entryMessage = e.target.message.value;
+  if(entryMessage > 150){
+    entryMessage = entryMessage.substring(0,150);
+  }
+
   const currentDate = new Date();
   const dateTime = `${currentDate.getDate()}/${
     currentDate.getMonth() + 1
   }/${currentDate.getFullYear()} @ ${currentDate.getHours()}:${currentDate.getMinutes()}`;
 
   const journalData = {
-    entry: e.target.message.value,
+    entry: entryMessage,
     date: dateTime,
   };
 
@@ -65,24 +65,141 @@ function submitJournal(e) {
       'Content-Type': 'application/json',
     },
   };
-
+  
   fetch(`${herokuURL}/entry`, options)
     .then((r) => r.json())
     .then(appendEntry)
     .catch(console.warn);
 }
 
+// Append a array of entries
 function appendEntries(entries) {
   entries.forEach((entry) => appendEntry(entry));
 }
 
+// Append a single entry
+function appendEntry(data) {
+
+  if(data.entry.length > 150 ){
+    throw new Error ('over char limit!')
+  } else {
+    const allEntries = document.getElementById('entries');
+
+    const entryDiv = document.createElement('div');
+    const date = document.createElement('p');
+    const name = document.createElement('h5');
+  
+    const reactionDiv = document.createElement('div');
+    const like = document.createElement('a');
+    const dislike = document.createElement('a');
+    const tree = document.createElement('a');
+    const comment = document.createElement('a');
+  
+    like.id = `like`
+    dislike.id = `dislike`
+    tree.id = `tree`
+    comment.id = `comment`
+  
+    like.name = `${data.id}`
+    dislike.name = `${data.id}`
+    tree.name = `${data.id}`
+    comment.name = `${data.id}`
+  
+    reactionDiv.className += 'd-flex justify-content-end text-center';
+  
+    entryDiv.className += 'entry-box';
+  
+    like.className += 'px-3 reaction';
+    dislike.className += 'px-3 reaction';
+    tree.className += 'px-3 reaction';
+    comment.className += 'px-3 reaction';
+  
+    like.innerHTML = `<i class="fas fa-thumbs-up fa-2x"></i><p>${data.reaction[0].like}</p>`;
+    dislike.innerHTML = `<i class="fas fa-thumbs-down fa-2x"></i><p>${data.reaction[1].dislike}</p>`;
+    tree.innerHTML = `<i class="fab fa-pagelines fa-2x"></i><p>${data.reaction[2].tree}</p>`;
+    comment.innerHTML = `<i class="fas fa-comment fa-2x"></i>`
+  
+    reactionDiv.appendChild(like);
+    reactionDiv.appendChild(dislike);
+    reactionDiv.appendChild(tree);
+    reactionDiv.appendChild(comment);
+  
+    entryDiv.id = data.id;
+    date.textContent = data.date;
+    date.className += 'entry-date';
+    name.textContent = 'Anonymous';
+  
+    const commentHolder = document.createElement('div');
+    commentHolder.id = `comments-${data.id}`
+    commentHolder.className = 'comments';
+    if (data.comment !== null) {
+      const comments = data.comments;
+      comments.forEach((comment) => {
+        const commentBox = document.createElement('div');
+        commentBox.className = 'comment-box';
+        const commentUser = document.createElement('h5');
+        const theComment = document.createElement('p');
+  
+        commentUser.textContent = 'Anonymous';
+        theComment.textContent = `"${comment}"`
+        commentBox.appendChild(commentUser);
+        commentBox.appendChild(theComment);
+        commentHolder.appendChild(commentBox);
+      });
+    }
+  
+    entryDiv.appendChild(date);
+    entryDiv.appendChild(name);
+
+    const entryContent = checkEntryContentType(data.entry);
+
+    entryDiv.appendChild(entryContent)
+
+
+
+    entryDiv.appendChild(reactionDiv);
+    entryDiv.appendChild(commentHolder)
+    allEntries.appendChild(entryDiv);
+    findReactions();
+  }   
+
+}
+
+function checkEntryContentType(entry){
+  if (entry.startsWith('https://')) {
+      const image = document.createElement('img');
+      image.src = entry;
+      return image;
+  } else {
+      const entryText = document.createElement('p');
+      entryText.textContent = `"${entry}"`;
+      entryText.className += 'entry-message';
+      return entryText;
+  }
+}
+
+
+// Find reactions
 function findReactions() {
   const getReactions = document.querySelector('body');
   getReactions.addEventListener('click', registerReactions)
 }
 
+// Register Reaction
 function registerReactions(e) {
-  let anchor = e.target.closest('a');
+
+  console.log(! e instanceof mockEvent)
+
+  let anchor;
+
+  if(e instanceof mockEvent){
+    anchor = e
+  } else {
+    console.log("original anchor")
+    anchor = e.target.closest('a');
+  }
+  
+
   if(anchor !== null) {
     if (anchor.id != "comment"){
     submitReaction(anchor.name, anchor.id)
@@ -90,15 +207,11 @@ function registerReactions(e) {
     else {
       console.log('comment clicked')
       commentBox(anchor.name)
-      
-      
     }
-  } else {
-    
-    // do nothing
   }
 }
 
+// Submit a reaction
 function submitReaction(id, reaction) {
   console.log(id);
   console.log(reaction);
@@ -115,12 +228,16 @@ function submitReaction(id, reaction) {
     },
   };
 
+
   fetch(`${herokuURL}/entry/reaction`, options)
-    .then((r) => r.json())
-    .then(updateReaction)
-    .catch(console.warn);
+  .then((r) => r.json())
+  .then(updateReaction)
+  .catch(console.warn);
+
+  
 }
 
+// Update reaction count
 function updateReaction(data) {
   let parent = document.getElementById(data.id);
   let like = parent.querySelector('#like p')
@@ -130,95 +247,9 @@ function updateReaction(data) {
   like.textContent = data.reaction[0].like
   dislike.textContent = data.reaction[1].dislike
   tree.textContent = data.reaction[2].tree
-  
 }
 
-function appendEntry(data) {
-
-  const allEntries = document.getElementById('entries');
-
-  const entryDiv = document.createElement('div');
-  const date = document.createElement('p');
-  const name = document.createElement('h5');
-
-  const reactionDiv = document.createElement('div');
-  const like = document.createElement('a');
-  const dislike = document.createElement('a');
-  const tree = document.createElement('a');
-  const comment = document.createElement('a');
-
-  like.id = `like`
-  dislike.id = `dislike`
-  tree.id = `tree`
-  comment.id = `comment`
-
-  like.name = `${data.id}`
-  dislike.name = `${data.id}`
-  tree.name = `${data.id}`
-  comment.name = `${data.id}`
-
-  reactionDiv.className += 'd-flex justify-content-end text-center';
-
-  entryDiv.className += 'entry-box';
-
-  like.className += 'px-3 reaction';
-  dislike.className += 'px-3 reaction';
-  tree.className += 'px-3 reaction';
-  comment.className += 'px-3 reaction';
-
-  like.innerHTML = `<i class="fas fa-thumbs-up fa-2x"></i><p>${data.reaction[0].like}</p>`;
-  dislike.innerHTML = `<i class="fas fa-thumbs-down fa-2x"></i><p>${data.reaction[1].dislike}</p>`;
-  tree.innerHTML = `<i class="fab fa-pagelines fa-2x"></i><p>${data.reaction[2].tree}</p>`;
-  comment.innerHTML = `<i class="fas fa-comment fa-2x"></i>`
-
-  reactionDiv.appendChild(like);
-  reactionDiv.appendChild(dislike);
-  reactionDiv.appendChild(tree);
-  reactionDiv.appendChild(comment);
-
-  entryDiv.id = data.id;
-  date.textContent = data.date;
-  date.className += 'entry-date';
-  name.textContent = 'Anonymous';
-
-  const commentHolder = document.createElement('div');
-  commentHolder.id = `comments-${data.id}`
-  commentHolder.className = 'comments';
-  if (data.comment !== null) {
-    const comments = data.comments;
-    comments.forEach((comment) => {
-      const commentBox = document.createElement('div');
-      commentBox.className = 'comment-box';
-      const commentUser = document.createElement('h5');
-      const theComment = document.createElement('p');
-
-      commentUser.textContent = 'Anonymous';
-      theComment.textContent = `"${comment}"`
-      commentBox.appendChild(commentUser);
-      commentBox.appendChild(theComment);
-      commentHolder.appendChild(commentBox);
-    });
-  }
-
-  entryDiv.appendChild(date);
-  entryDiv.appendChild(name);
-  const urlCheck = data.entry;
-  if (urlCheck.startsWith('https://')) {
-    const image = document.createElement('img');
-    image.src = data.entry;
-    entryDiv.appendChild(image);
-  } else {
-    const entry = document.createElement('p');
-    entry.textContent = `"${data.entry}"`;
-    entry.className += 'entry-message';
-    entryDiv.appendChild(entry);
-  }
-  entryDiv.appendChild(reactionDiv);
-  entryDiv.appendChild(commentHolder)
-  allEntries.appendChild(entryDiv);
-  findReactions();
-}
-
+// Request an entry
 function requestEntries() {
   fetch(`${herokuURL}/entry`)
     .then((r) => r.json())
@@ -226,32 +257,8 @@ function requestEntries() {
     .catch(console.warn);
 }
 
-let messageBox = document.getElementById("messageBox");
-let wordCount = document.getElementById("wordCount");
-messageBox.addEventListener("keyup",function(){
-  console.log('key pressed')
-  let characters = messageBox.value.split('');
-  wordCount.innerText = characters.length;
-  if(characters.length > 150){
-    messageBox.value = messageBox.value.substring(0,150);
-    alert('You have gone over the character limit of 150 characters.');
-    wordCount.innerText = 150; 
-  }
-})
-//----------------------------------------------------------------------
-//add comment box function
-//#1
-//TODO:
-      //create function and invoke here which does the following:
-        //Create another form & event listener
-        //invoke function to create text area/div etc
-        //add eventlistener
-        //Make logic for removing comment box if another comment is clicked
-        //Make comment box hidden if possible
-        //
-
+// Create comment box
 function commentBox(id) {
-
   const checkCommentBox = document.getElementById('commentForm');
   if (checkCommentBox) {
     checkCommentBox.remove();
@@ -261,34 +268,30 @@ function commentBox(id) {
   const commentBox = document.createElement('textarea');
   const entryBox = document.getElementById(id)
   const submitBtn = document.createElement('input')
-  
-  commentForm.name = id
-  commentBox.name = id
-  commentBox.className = 'form-control'
-  submitBtn.name = id
 
   commentForm.id = 'commentForm'
+  commentForm.name = id
+
   commentBox.id = 'comment'
+  commentBox.name = id
+  commentBox.className = 'form-control'
+
   submitBtn.id = 'submitBtn'
-
+  submitBtn.name = id
   submitBtn.type = 'submit'
-
   submitBtn.value = 'Submit Comment'
 
-
-  commentForm.className += 'd-flex justify-content-start text-center';
-  
-
   entryBox.appendChild(commentForm);
+
   commentForm.appendChild(commentBox);
   commentForm.appendChild(submitBtn); 
-
   commentForm.addEventListener('submit', submitComment)
 
 }
 
 
 
+// Submit comment box
 function submitComment(e) {
   e.preventDefault();
   
@@ -313,6 +316,7 @@ function submitComment(e) {
     .catch(console.warn);
 }
 
+// Update comment section
 function updateComment(data) {
   const commentHolder = document.getElementById(`comments-${data.id}`);
   commentHolder.innerHTML = '';
@@ -333,6 +337,7 @@ function updateComment(data) {
   }
 }
 
+// Add Giphy
 function addGiphy() {
   console.log('test')
   // get search term //
@@ -350,6 +355,7 @@ function addGiphy() {
   .then(displayGifs)
 }
 
+// Display the returned Gifs
 function displayGifs(gifs) {
     const giphyArea = document.getElementById('giphy-form');
     giphyArea.className = '';
@@ -366,16 +372,9 @@ function displayGifs(gifs) {
 
       button.innerHTML = `<img src="${imgURL}">`;
     }
-
-
-    // let selectImage = imageData[0]
-    // let imgURL = selectImage.images.fixed_height.url
-    // // create //
-    // let image = document.createElement("img")
-    // image.setAttribute("src", imgURL)
-    // document.body.appendChild(image)
 }
 
+// Handle the submitted Gif
 function handleGifs(e) {
   e.preventDefault();
   let radio;
@@ -400,6 +399,7 @@ function handleGifs(e) {
   submitGif(url);
 }
 
+// Submit the gif as a new entry
 function submitGif(url) {
   const currentDate = new Date();
   const dateTime = `${currentDate.getDate()}/${
@@ -430,14 +430,30 @@ function submitGif(url) {
   const giphyArea = document.getElementById('giphy-form');
   giphyArea.className = 'd-none';
 }
+
+// Exports
 module.exports = {
-  handleJournalSubmit,
   submitJournal,
   appendEntry,
   appendEntries,
+  checkEntryContentType,
+  registerReactions,
   requestEntries,
   commentBox,
-  addGiphy
+  addGiphy,
+  handleGifs,
+  displayGifs,
+  submitReaction
 };
 
+},{"../tests/mockEvent":3}],3:[function(require,module,exports){
+class mockEvent {
+    constructor(name, id){
+        this.name = name; 
+        this.id = id
+    }
+    
+};
+
+module.exports = mockEvent
 },{}]},{},[1]);
