@@ -57,7 +57,7 @@ describe('Entry model tests', () => {
         });
     });
         
-    it()
+    //it()
     // beforeEach(() => { 
     //     utils.write = jest.fn((obj) => {
     //         console.log("mocked JSON file update")
