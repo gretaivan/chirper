@@ -3,7 +3,8 @@
 const fs = require('fs');
 const request = require("supertest");
 const server = require('../server');
-const controller = require('../controllers/entries')
+const Entry = require('../models/entry');
+// const controller = require('../controllers/entries')
 jest.mock('../controllers/utils', () => jest.requireActual('../controllers/__mocks__/utils'))
 const utils = require('../controllers/utils');
 //test data
@@ -73,9 +74,9 @@ describe('Route "/entry" ', () => {
     
     it('should GET and return a new entry', (done) => {
 
-        let str = utils.read();
+        let str = Entry.all
         str = JSON.stringify(str)
-        
+
         request(apiServer)
             .get('/entry') 
             .expect(str, done)
