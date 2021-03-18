@@ -1,8 +1,8 @@
 # Chirper
 
-[![GitHub license](https://img.shields.io/github/license/Naereen/StrapDown.js.svg)](https://github.com/Naereen/StrapDown.js/blob/master/LICENSE)
-[![GitHub forks](https://img.shields.io/github/forks/Naereen/StrapDown.js.svg?style=social&label=Fork&maxAge=2592000)](https://github.com/gretaivan/chirper/network)
-[![GitHub contributors](https://img.shields.io/github/contributors/Naereen/StrapDown.js.svg)](https://github.com/gretaivan/chirper/graphs/contributors/)
+[![MIT license](https://img.shields.io/badge/License-MIT-blue.svg)](https://lbesson.mit-license.org/)
+[![GitHub forks](https://img.shields.io/github/forks/gretaivan/chirper.svg?style=social&label=Fork&maxAge=2592000)](https://github.com/gretaivan/chirper/network)
+[![GitHub contributors](https://img.shields.io/github/contributors/gretaivan/chirper.svg)](https://github.com/gretaivan/chirper/graphs/contributors/)
 
 
 
