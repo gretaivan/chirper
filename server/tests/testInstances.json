@@ -1,0 +1,13 @@
+[
+    {        
+        "entry":"First test to test model entry",
+        "date":"17/3/2021 @ 13:02",
+        "reaction":[{"like":19},{"dislike":4},{"tree":1}],
+        "comments":0
+    },
+    {
+        "entry":"Second test to test model entry",
+        "date":"17/3/2021 @ 13:02"
+    }
+]    
+

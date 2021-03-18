@@ -31,7 +31,7 @@ function submitJournal(e) {
     },
   };
   
-  fetch(`${testingURL}/entry`, options)
+  fetch(`${herokuURL}/entry`, options)
     .then((r) => r.json())
     .then(appendEntry)
     .catch(console.warn);
@@ -42,67 +42,7 @@ function appendEntries(entries) {
   entries.forEach((entry) => appendEntry(entry));
 }
 
-<<<<<<< HEAD
-function findReactions() {
-  const getReactions = document.querySelector('body');
-  getReactions.addEventListener('click', registerReactions)
-}
-
-function registerReactions(e) {
-  let anchor = e.target.closest('a');
-  if(anchor !== null) {
-    if (anchor.id != "comment"){
-    submitReaction(anchor.name, anchor.id)
-    }
-    else {
-      console.log('comment clicked')
-      commentBox(anchor.name)
-      
-      
-    }
-  } else {
-    
-    // do nothing
-  }
-}
-
-function submitReaction(id, reaction) {
-  console.log(id);
-  console.log(reaction);
-  const reactionData = {
-    id: id,
-    reaction: reaction,
-  };
-
-  const options = {
-    method: 'POST',
-    body: JSON.stringify(reactionData),
-    headers: {
-      'Content-Type': 'application/json',
-    },
-  };
-
-  fetch(`${testingURL}/entry/reaction`, options)
-    .then((r) => r.json())
-    .then(updateReaction)
-    .catch(console.warn);
-}
-
-function updateReaction(data) {
-  let parent = document.getElementById(data.id);
-  let like = parent.querySelector('#like p')
-  let dislike = parent.querySelector('#dislike p')
-  let tree = parent.querySelector('#tree p')
-
-  like.textContent = data.reaction[0].like
-  dislike.textContent = data.reaction[1].dislike
-  tree.textContent = data.reaction[2].tree
-  
-}
-
-=======
 // Append a single entry
->>>>>>> upstream/staging
 function appendEntry(data) {
   const allEntries = document.getElementById('entries');
 
@@ -188,10 +128,7 @@ function appendEntry(data) {
   findReactions();
 }
 
-<<<<<<< HEAD
-function requestEntries() {
-  fetch(`${testingURL}/entry`)
-=======
+
 // Find reactions
 function findReactions() {
   const getReactions = document.querySelector('body');
@@ -231,8 +168,8 @@ function submitReaction(id, reaction) {
     },
   };
 
-  fetch(`${testingURL}/entry/reaction`, options)
->>>>>>> upstream/staging
+
+  fetch(`${herokuURL}/entry/reaction`, options)
     .then((r) => r.json())
     .then(updateReaction)
     .catch(console.warn);
@@ -252,7 +189,7 @@ function updateReaction(data) {
 
 // Request an entry
 function requestEntries() {
-  fetch(`${testingURL}/entry`)
+  fetch(`${herokuURL}/entry`)
     .then((r) => r.json())
     .then(appendEntries)
     .catch(console.warn);
@@ -311,7 +248,7 @@ function submitComment(e) {
     },
   };
 
-  fetch(`${testingURL}/entry/comment`, options)
+  fetch(`${herokuURL}/entry/comment`, options)
     .then((r) => r.json())
     .then(updateComment)
     .catch(console.warn);
@@ -422,7 +359,7 @@ function submitGif(url) {
     },
   };
 
-  fetch(`${testingURL}/entry`, options)
+  fetch(`${herokuURL}/entry`, options)
     .then((r) => r.json())
     .then(appendEntry)
     .catch(console.warn);
