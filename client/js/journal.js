@@ -1,13 +1,8 @@
-// variables for testing
+// Variables to switch between Production server and Testing locally
 const herokuURL = "https://chirper-uk.herokuapp.com"
 const testingURL = "http://localhost:3000"
 
-// function handleJournalSubmit2(e) {
-//     console.log(e);
-//     console.log("submit handler")
-//     submitJournal(e);
-// }
-
+// Submit Journal Function
 function submitJournal(e) {
   e.preventDefault();
   const currentDate = new Date();
@@ -29,11 +24,6 @@ function submitJournal(e) {
       'Content-Type': 'application/json',
     },
   };
-
-//fetch test should be commented for deploy
-  // fetch(`${testingURL}/entry`, options)
-///until here
-  
   
   fetch(`${testingURL}/entry`, options)
     .then((r) => r.json())
@@ -41,69 +31,13 @@ function submitJournal(e) {
     .catch(console.warn);
 }
 
+// Append a array of entries
 function appendEntries(entries) {
   entries.forEach((entry) => appendEntry(entry));
 }
 
-function findReactions() {
-  const getReactions = document.querySelector('body');
-  getReactions.addEventListener('click', registerReactions)
-}
-
-function registerReactions(e) {
-  let anchor = e.target.closest('a');
-  if(anchor !== null) {
-    if (anchor.id != "comment"){
-    submitReaction(anchor.name, anchor.id)
-    }
-    else {
-      console.log('comment clicked')
-      commentBox(anchor.name)
-      
-      
-    }
-  } else {
-    
-    // do nothing
-  }
-}
-
-function submitReaction(id, reaction) {
-  console.log(id);
-  console.log(reaction);
-  const reactionData = {
-    id: id,
-    reaction: reaction,
-  };
-
-  const options = {
-    method: 'POST',
-    body: JSON.stringify(reactionData),
-    headers: {
-      'Content-Type': 'application/json',
-    },
-  };
-
-  fetch(`${testingURL}/entry/reaction`, options)
-    .then((r) => r.json())
-    .then(updateReaction)
-    .catch(console.warn);
-}
-
-function updateReaction(data) {
-  let parent = document.getElementById(data.id);
-  let like = parent.querySelector('#like p')
-  let dislike = parent.querySelector('#dislike p')
-  let tree = parent.querySelector('#tree p')
-
-  like.textContent = data.reaction[0].like
-  dislike.textContent = data.reaction[1].dislike
-  tree.textContent = data.reaction[2].tree
-  
-}
-
+// Append a single entry
 function appendEntry(data) {
-
   const allEntries = document.getElementById('entries');
 
   const entryDiv = document.createElement('div');
@@ -188,6 +122,64 @@ function appendEntry(data) {
   findReactions();
 }
 
+// Find reactions
+function findReactions() {
+  const getReactions = document.querySelector('body');
+  getReactions.addEventListener('click', registerReactions)
+}
+
+// Register Reaction
+function registerReactions(e) {
+  let anchor = e.target.closest('a');
+  if(anchor !== null) {
+    if (anchor.id != "comment"){
+    submitReaction(anchor.name, anchor.id)
+    }
+    else {
+      console.log('comment clicked')
+      commentBox(anchor.name)
+      
+      
+    }
+  }
+}
+
+// Submit a reaction
+function submitReaction(id, reaction) {
+  console.log(id);
+  console.log(reaction);
+  const reactionData = {
+    id: id,
+    reaction: reaction,
+  };
+
+  const options = {
+    method: 'POST',
+    body: JSON.stringify(reactionData),
+    headers: {
+      'Content-Type': 'application/json',
+    },
+  };
+
+  fetch(`${testingURL}/entry/reaction`, options)
+    .then((r) => r.json())
+    .then(updateReaction)
+    .catch(console.warn);
+}
+
+// Update reaction count
+function updateReaction(data) {
+  let parent = document.getElementById(data.id);
+  let like = parent.querySelector('#like p')
+  let dislike = parent.querySelector('#dislike p')
+  let tree = parent.querySelector('#tree p')
+
+  like.textContent = data.reaction[0].like
+  dislike.textContent = data.reaction[1].dislike
+  tree.textContent = data.reaction[2].tree
+}
+
+// Request an entry
 function requestEntries() {
   fetch(`${testingURL}/entry`)
     .then((r) => r.json())
@@ -195,21 +187,8 @@ function requestEntries() {
     .catch(console.warn);
 }
 
-
-//----------------------------------------------------------------------
-//add comment box function
-//#1
-//TODO:
-      //create function and invoke here which does the following:
-        //Create another form & event listener
-        //invoke function to create text area/div etc
-        //add eventlistener
-        //Make logic for removing comment box if another comment is clicked
-        //Make comment box hidden if possible
-        //
-
+// Create comment box
 function commentBox(id) {
-
   const checkCommentBox = document.getElementById('commentForm');
   if (checkCommentBox) {
     checkCommentBox.remove();
@@ -220,33 +199,29 @@ function commentBox(id) {
   const entryBox = document.getElementById(id)
   const submitBtn = document.createElement('input')
   
+  commentForm.id = 'commentForm'
   commentForm.name = id
+
+  commentBox.id = 'comment'
   commentBox.name = id
   commentBox.className = 'form-control'
-  submitBtn.name = id
 
-  commentForm.id = 'commentForm'
-  commentBox.id = 'comment'
   submitBtn.id = 'submitBtn'
-
+  submitBtn.name = id
   submitBtn.type = 'submit'
-
   submitBtn.value = 'Submit Comment'
 
-
   commentForm.className += 'd-flex justify-content-start text-center';
-  
 
   entryBox.appendChild(commentForm);
+
   commentForm.appendChild(commentBox);
   commentForm.appendChild(submitBtn); 
-
   commentForm.addEventListener('submit', submitComment)
 
 }
 
-
-
+// Submit comment box
 function submitComment(e) {
   e.preventDefault();
   
@@ -271,6 +246,7 @@ function submitComment(e) {
     .catch(console.warn);
 }
 
+// Update comment section
 function updateComment(data) {
   const commentHolder = document.getElementById(`comments-${data.id}`);
   commentHolder.innerHTML = '';
@@ -291,6 +267,7 @@ function updateComment(data) {
   }
 }
 
+// Add Giphy
 function addGiphy() {
   console.log('test')
   // get search term //
@@ -308,6 +285,7 @@ function addGiphy() {
   .then(displayGifs)
 }
 
+// Display the returned Gifs
 function displayGifs(gifs) {
     const giphyArea = document.getElementById('giphy-form');
     giphyArea.className = '';
@@ -324,16 +302,9 @@ function displayGifs(gifs) {
 
       button.innerHTML = `<img src="${imgURL}">`;
     }
-
-
-    // let selectImage = imageData[0]
-    // let imgURL = selectImage.images.fixed_height.url
-    // // create //
-    // let image = document.createElement("img")
-    // image.setAttribute("src", imgURL)
-    // document.body.appendChild(image)
 }
 
+// Handle the submitted Gif
 function handleGifs(e) {
   e.preventDefault();
   let radio;
@@ -358,6 +329,7 @@ function handleGifs(e) {
   submitGif(url);
 }
 
+// Submit the gif as a new entry
 function submitGif(url) {
   const currentDate = new Date();
   const dateTime = `${currentDate.getDate()}/${
@@ -388,6 +360,8 @@ function submitGif(url) {
   const giphyArea = document.getElementById('giphy-form');
   giphyArea.className = 'd-none';
 }
+
+// Exports
 module.exports = {
   submitJournal,
   appendEntry,
